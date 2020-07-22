@@ -9,11 +9,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../adminlte/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="adminlte/plugins/fontawesome-free/css/all.min.css">
     <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="../adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../adminlte/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
  </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -61,11 +61,11 @@
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script src="../adminlte/plugins/jquery/jquery.min.js"></script>
+<script src="adminlte/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../adminlte/dist/js/adminlte.min.js"></script>
+<script src="adminlte/dist/js/adminlte.min.js"></script>
 
 </body>
 </html>
