@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,19 +21,21 @@
    <b>Clinica</b>Amigos en Apuros</a>
   </div>
   <!-- /.login-logo -->
+  
     <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Inicia tu sesión</p>
+      <form action="controladores/conexion.php" method="post">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Usuario o correo electrónico ">
+            <input type="email" name="txtcorreo" class="form-control" placeholder="Usuario o correo electrónico ">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
         </div>
-        <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Contraseña">
+              <div class="input-group mb-3">    
+            <input type="password" name="txtpassword" class="form-control" placeholder="Contraseña">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -41,7 +44,7 @@
         </div>
         <div class="row">
           <div class="col-6">
-            <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+            <button type="submit" name=="btnlogin"  class="btn btn-primary btn-block">Iniciar Sesión</button>
           </div>
           <!-- /.col -->
         </div>
