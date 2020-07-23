@@ -18,7 +18,11 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-   <b>Clinica</b>Amigos en Apuros</a>
+      <div class="card card-primary">
+                <div class="card-header">
+   <b>Clinica </b>Amigos en Apuros</a>
+                </div>
+      </div>
   </div>
   <!-- /.login-logo -->
   
