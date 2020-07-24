@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Clinica Login</title>
+  <title>Amigos en Apuros | Login</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -55,7 +55,7 @@
         <a href="forgot-password.html">¿Olvidaste tu contraseña?</a>
       </p>
       <p class="mb-0">
-          <a href="../pueba/register.php" class="text-center">Regístrate</a>
+          <a href="../clinica/register.php" class="text-center">Regístrate</a>
       </p>
     </div>
     <!-- /.login-card-body -->

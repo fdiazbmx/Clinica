@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Clinica Amigos en Apuros</title>
+  <title>Clinica | Amigos en Apuros</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -57,7 +57,7 @@
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Usuario</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
               <li><a href="" class="dropdown-item">Gestionar Cuenta</a></li>
-              <li><a href="../Clinica-Amigos-en-Apuros/controladores/cerrar.php" class="dropdown-item">Cerrar Sesión</a></li>
+              <li><a href="../Clinica/controladores/cerrar.php" class="dropdown-item">Cerrar Sesión</a></li>
 
               <li class="dropdown-divider"></li>
             </ul>
