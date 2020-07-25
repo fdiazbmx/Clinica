@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title></title>      
     </head>
     <body>
         <?php
@@ -42,28 +42,31 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
      if($reg_password==$reg_password2){
         include '../controladores/conexion.php'; 
      }else{
-         echo 'su contraseña es diferente';
-     }
+       echo '<script>alert("no es la misma");</script>';
+       
+       header("location:../register.php") ;
+         
+     }  
      
+     $sql="INSERT INTO `persona`(`Nombres`, `Apellidos`, `Genero`, `FechaNacimiento`, `EstadoCivil`, `Direccion`,"
+             . " `Telefono`, `Celular`, `CodPais`, `CodIdentificacion`, `Nume_Identificacion`, `CodTipoSangre`,"
+             . " `CodTipoPersona`, `FechaModicicaion`) VALUES ('$reg_Nombres','$reg_apellidos',$reg_genero,$reg_fecha_nacimiento,$reg_estado_civil,'$reg_direccion','$reg_num_telefono','$reg_num_Celular',$reg_Pais,'$reg_TipoIdentidad','$reg_num_identidad',$reg_tipo_sangre,'3',now())";
+    
+     $sql1="INSERT INTO `usuario`(`Correo`, `Contraseña`, `CodPersona`, `CodPerfil`, `FechaCreacion`) VALUES ('$reg_email','$reg_password',3,3,now())";
      
-     
-     //$sql="INSERT INTO persona (`CodPersona`, `Nombres`, `Apellidos`, `Genero`, `FechaNacimiento`, `EstadoCivil`, `FotoPerfil`, `Direccion`, `Telefono`, `Celular`, `CodPais`, `CodIdentificacion`, `Nume_Identificacion`, `CodTipoSangre`, `CodTipoPersona`, `FechaModicicaion`) "
-       //      . "VALUES ('$reg_NombrePersona','diaz','$reg_genero','$reg_fecha_nacimiento','1',1,'$reg_direccion','$reg_num_telefono','33333','1','$reg_TipoIdentidad','$reg_num_identidad','$reg_tipo_sangre','1','sysdate')";
-     
-     $sql="INSERT INTO `persona`(`Nombres`, `Apellidos`, `Genero`, `FechaNacimiento`, `EstadoCivil`,`FechaModicicaion`) VALUES ('$reg_Nombres','$reg_apellidos',$reg_genero,'$reg_fecha_nacimiento',$reg_estado_civil,now())";
-     
-     //$sql="INSERT INTO `persona`(, `Nombres`, `Apellidos`, `Genero`, `FechaNacimiento`, `EstadoCivil`, `Direccion`,"
-       //      . " `Telefono`, `Celular`, `CodPais`, `CodIdentificacion`, `Nume_Identificacion`, `CodTipoSangre`,"
-         //    . " `CodTipoPersona`, `FechaModicicaion`) VALUES ()"
-     
-     $resultado=$conn->prepare($sql);
+     $resultado1=$conn->prepare($sql1);         
+     $resultado=$conn->prepare($sql); 
 
       $resultado->execute();
+      $resultado1->execute();
+      
+      header("location:../login.php");
      
      if(!$resultado){   
          echo'error';
      }else{
          echo 'correcto';
+         
      }
      
         ?>

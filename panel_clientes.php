@@ -26,6 +26,16 @@
   <link rel="stylesheet" href="adminlte/plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  
+	<style>
+		.content {
+			margin-top: 50px;
+		}
+		img{
+          width:800px;
+          height:400px;
+          } 
+	</style>
 </head>
 <body 
     <?php
@@ -70,7 +80,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="images/clinica.jpeg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      <img src="imagenes/Clinica.jpeg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
       <span class="brand-text font-weight-light">Amigos en Apuros</span>
     </a>
@@ -448,8 +458,14 @@
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Dashboard v1</li>
             </ol>
+              <center>
+	</br>
+	</br>
+	<img src="imagenes/Clinica.jpeg" class="img-fluid" alt="Responsive image" style="opacity: .5">
+        
+	</center>
               <div class="image">
-                  <img src="images/clinica.jpeg" class="brand-image img-circle elevation-3"
+                  <img src="imagenes/Clinica.jpeg" class="brand-image img-circle elevation-3"
            style="opacity: .5">
               </div>
           </div><!-- /.col -->
