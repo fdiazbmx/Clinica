@@ -1,10 +1,8 @@
-
-			
-   <div class="container-fluid">
-    <nav class="header navbar navbar-expand navbar-dark navbar-light">
+  <!-- Barra de pagina principal -->
+  <nav class="header navbar navbar-expand navbar-dark navbar-light">
     <!-- Left navbar links -->
     <div class="navbar-header">
-        <a class="navbar-brand" href="panel_principal.php"><i class="fa fa-ambulance" aria-hidden="true"></i> Clinica Amigos en Apuros</a>
+        <a class="navbar-brand" href="panel_principal.php"><i class="fa fa-ambulance" aria-hidden="true"></i>  Clinica Amigos en Apuros</a>
     </div>
     
     <ul class="navbar-nav">
@@ -13,13 +11,10 @@
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
               <li><a href="" class="dropdown-item">Administrador</a></li>
               <li><a href="" class="dropdown-item">Empleados</a></li>
-              <li><a href="../Clinica/login.php" class="dropdown-item">Clientes</a></li>
+              <li><a href="../Clinica/login_clientes.php" class="dropdown-item">Clientes</a></li>
 
               <li class="dropdown-divider"></li>
             </ul>
           </li>
     </ul>
   </nav>
-  </div>
-
-

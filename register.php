@@ -18,7 +18,12 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-<body class="hold-transition register-page">
+<body 
+    <?php include ('../clinica/nav.php');?>
+<center>
+  <div class="content-header">
+      <div class="container-fluid">
+        <div class="login-box">   
 <div class="register-box">
   <div class="register-logo">
     <a href="../controladores/registro_clientes"><b>Clinica </b>Amigos En Apuros</a>
@@ -30,7 +35,7 @@
 
       <form action="../clinica/controladores/registro_clientes.php" method="post">
         <div class="input-group mb-3">
-          <input type="text" name="Nombres" class="form-control" placeholder="Nombres">
+          <input type="text" name="Nombres" class="form-control"class="input-group date form-control" placeholder="Nombres">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -189,11 +194,14 @@
           <!-- /.col -->
         </div>
       </form>
-      <a href="../clinica/login.php" class="text-center">Ya Estoy Registrado</a>
+      <a href="../clinica/login_clientes.php" class="text-center">Ya Estoy Registrado</a>
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->
 </div>
+</div><!-- /.container-fluid -->
+</div>
+</center>
 <!-- /.register-box -->
 
 <!-- jQuery -->
@@ -203,4 +211,7 @@
 <!-- AdminLTE App -->
 <script src="adminlte/dist/js/adminlte.min.js"></script>
 </body>
+<footer class="page-footer font-small teal pt-4">
+<?php include('../clinica/footer.php');?>
+</footer>
 </html>

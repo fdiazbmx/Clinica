@@ -6,7 +6,7 @@
     </head>
     <body>
          <?php
-          include '../controladores/conexion.php';        
+          include ('../controladores/conexion.php');        
           $sql="SELECT * FROM USUARIO WHERE CORREO= :txtcorreo AND CONTRASEÑA=:txtpassword";
           $resultado=$conn->prepare($sql);
           $login=htmlentities(addslashes($_POST["txtcorreo"]));  
@@ -25,10 +25,10 @@
               
               session_start();
               $_SESSION["usuario"]=$_POST[txtcorreo];              
-              header("location:../panel.php");
+              header("location:../panel_clientes.php");
           }else{
                 
-                 header("location:../login.php");     
+                 header("location:../login_cliente.php");     
               }    
         ?>
     </body>
