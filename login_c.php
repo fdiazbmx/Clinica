@@ -4,7 +4,7 @@
         <div class="login-box">
   <div class="login-logo">
       <div class="card card-primary">
-                <div class="card-header">
+                <div >
    <b>Clinica </b>Amigos en Apuros</a>
                 </div>
       </div>
