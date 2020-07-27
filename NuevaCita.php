@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,12 +27,10 @@
   <link rel="stylesheet" href="adminlte/plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  
-	
 </head>
-<body 
+<body
     <?php
-      include ('controladores/conexion.php');
+    include ('controladores/conexion.php');
       session_start();
        if(!isset($_SESSION["usuario"])){
         header("location:../clinica/panel_principal.php");
@@ -67,10 +66,10 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-            <img src="imagenes/descarga.png" class="img-circle elevation-2" alt="User Image">
+          <img src="imagenes/descarga.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-               <?php
+          <?php
                      $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
                      $resultado=$conn->prepare($sql);
                      $resultado->execute(array($_SESSION["usuario"]));
@@ -87,7 +86,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-header">PACIENTE</li>
-          <li class="nav-item has-treeview">
+         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p>
@@ -120,12 +119,102 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Amigos en Apuros</h1>
-          </div><!-- /.col -->
-          </div><!-- /.col -->
-          <?php include '../Clinica/imagencentral.php';?>  
+         <div class="container">
+		<div class="content">
+			<h2> Agregar Cita</h2>
+			<hr />
+
+			<?php
+			if(isset($_POST['add'])){
+                
+				$id_paciente	= mysqli_real_escape_string($conn,(strip_tags($_POST["id_paciente"],ENT_QUOTES)));//Escanpando caracteres 
+				$id_especialidad	= mysqli_real_escape_string($conn,(strip_tags($_POST["id_especialidad"],ENT_QUOTES)));//Escanpando caracteres 
+				$fecha_cita = mysqli_real_escape_string($conn,(strip_tags($_POST["fecha_cita"],ENT_QUOTES)));//Escanpando caracteres 
+				$horainicial = mysqli_real_escape_string($conn,(strip_tags($_POST["horainicial"],ENT_QUOTES)));//Escanpando caracteres 
+				$horafinal	 = mysqli_real_escape_string($conn,(strip_tags($_POST["horafinal"],ENT_QUOTES)));//Escanpando caracteres 
+				$id_empleado = mysqli_real_escape_string($conn,(strip_tags($_POST["id_empleado"],ENT_QUOTES)));//Escanpando caracteres 
+				
+				
+
+						$insert = mysqli_query($conn, "INSERT INTO citas (id_paciente, id_especialidad, fecha_cita, horainicial, horafinal, id_empleado)
+													  VALUES( '$id_paciente','$id_especialidad', '$fecha_cita', '$horainicial', '$horafinal', '$id_empleado' )") or die(mysqli_error());
+						if($insert){
+							echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Bien hecho! Los datos han sido guardados con éxito.</div>';
+						}else{
+							echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudo guardar los datos !</div>';
+						}
+			}
+			
+			
+			?>
+          
+		  <form class="form-horizontal" action="" method="post">
+
+                <div class="form-group">
+					<label class="col-sm-3 control-label">Especialidad</label>
+					<div class="col-sm-3">
+				  	<select name="id_especialidad" class="form-control">
+					<option value=""> ------ </option>
+                    <?php
+                     $sql="SELECT * FROM especialidades";
+                     $resultado=$conn->prepare($sql);
+                     $resultado->execute(array(""));
+                     while ($especialidad=$resultado->fetch(pdo::FETCH_ASSOC)){
+                     echo '<option value="'.$especialidad[CodEspecialidad].'">'.$especialidad[Nombre].'</option>';
+                      }
+                    ?>
+                    </select>
+					</div>
+                </div> 
+
+                <div class="form-group">
+					<label class="col-sm-3 control-label">Medico</label>
+					<div class="col-sm-3">
+				  	<select name="id_empleado" class="form-control">
+					<option value=""> ----- </option>
+                    <?php
+                     $query1 = $conn -> query ("SELECT * FROM empleados");
+                     while ($empleados = mysqli_fetch_array($query1)) {
+                     echo '<option value="'.$empleados[id_empleado].'">'.$empleados[nombres].' '.$empleados[apellidos].'</option>';
+                      }
+                    ?>
+                    </select>
+					</div>
+				</div> 
+
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Fecha de la Cita</label>
+					<div class="col-sm-4">
+						<input type="text" name="fecha_cita" class="input-group date form-control" date="" data-date-format="dd-mm-yyyy" placeholder="00-00-0000" required>
+					</div>
+				</div>
+
+                <div class="form-group">
+					<label class="col-sm-3 control-label">Hora Inicial de la cita</label>
+					<div class="col-sm-4">
+                    <input type='time' name="horainicial" id="horainicial" class="form-control"  />
+					</div>
+				</div>
+                
+                <div class="form-group">
+					<label class="col-sm-3 control-label">Hora Final de la cita</label>
+					<div class="col-sm-4">
+                    <input type='time' name="horafinal" id="horafinal" class="form-control"  />
+					</div>
+				</div>
+                
+					
+				<div class="form-group">
+					<label class="col-sm-3 control-label">&nbsp;</label>
+					<div class="col-sm-6">
+					<input type="submit" name="add" class="btn btn-sm btn-primary" value="Guardar datos">
+						<a href="index.php" class="btn btn-sm btn-danger">Cancelar</a>
+						<a href="citas.php" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Regresar</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -136,6 +225,9 @@
 <!-- jQuery UI 1.11.4 -->
 <script src="adminlte/plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
 <!-- Bootstrap 4 -->
 <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- ChartJS -->

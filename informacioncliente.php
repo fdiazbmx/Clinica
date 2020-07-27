@@ -67,7 +67,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-            <img src="imagenes/descarga.png" class="img-circle elevation-2" alt="User Image">
+          <img src="imagenes/descarga.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
                <?php
@@ -75,7 +75,7 @@
                      $resultado=$conn->prepare($sql);
                      $resultado->execute(array($_SESSION["usuario"]));
                      while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
-                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].' '.$nombre['Apellidos'].'</a>';
+                     echo '<a href="#" class="d-block">'.$nombre['Nombres'].' '.$nombre['Apellidos'].'</a>';
                       }
                 ?>
         </div>
@@ -110,6 +110,7 @@
               </li>
               </ul>
           </li>
+          
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -120,12 +121,61 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Amigos en Apuros</h1>
-          </div><!-- /.col -->
-          </div><!-- /.col -->
-          <?php include '../Clinica/imagencentral.php';?>  
+          <section class="content">
+      <!-- Default box -->
+      <div class="container">
+		<div class="content">
+			<h2> Información</h2>
+        <div class="card-body pb-1">
+          <div class="row d-flex align-items-stretch">
+            <div class="col-20 col-sm-6 col-md-15 d-flex align-items-stretch">
+              <div class="card bg-light">
+                <div class="card-header text-muted border-bottom-0">
+                  Paciente
+                </div>
+                <div class="card-body pt-0">
+                  <div class="row">
+                    <div class="col-6">
+                     <?php
+                     $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
+                     $resultado=$conn->prepare($sql);
+                     $resultado->execute(array($_SESSION["usuario"]));
+                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
+                     echo '<h2 class="lead"><b>'.$nombre['Nombres'].' '.$nombre['Apellidos'].'</b></h2></br>';
+                      }
+                     ?>
+                      <ul class="ml-4 mb-0 fa-ul text-muted">
+                          <?php
+                     $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
+                     $resultado=$conn->prepare($sql);
+                     $resultado->execute(array($_SESSION["usuario"]));
+                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
+                         echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Fecha de Nacimiento: '.$nombre['FechaNacimiento'].'</li>';
+                     echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Dirección: '.$nombre['Direccion'].'</li>';
+                     echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Telefono: '.$nombre['Telefono'].'</li>';
+                     echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Celular: '.$nombre['Celular'].'</li>';
+                      }
+                     ?>
+                    </div>
+                    <div class="col-6 text-center">
+                      <img src="imagenes/descarga.png" alt="" class="img-circle img-fluid">
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="text-right">
+                    <a href="#" class="btn btn-sm btn-primary">
+                      <i class="fas fa-user"></i> Gestionar Cuenta
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+                </div>
+              </div>
+            </div>
+    </section>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>

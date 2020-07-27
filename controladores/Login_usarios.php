@@ -24,8 +24,9 @@
           if($numero_registro!=0){
               
               session_start();
-              $_SESSION["usuario"]=$_POST[txtcorreo];              
+              $_SESSION["usuario"]=$_POST[txtcorreo];  
               header("location:../panel_clientes.php");
+              
           }else{
                 
                  header("location:../login_cliente.php");     
