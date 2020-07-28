@@ -31,8 +31,8 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-6">
+        <div class="row boton_login">
+          <div>
             <button type="submit" name=="btnlogin"  class="btn btn-primary btn-block">Iniciar Sesión</button>
           </div>
           <!-- /.col -->

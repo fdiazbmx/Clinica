@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="A.medi/css/slicknav.css">
     <link rel="stylesheet" href="A.medi/css/style.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -55,38 +56,6 @@
                         </div>
                         <div class="col-xl-9 col-lg-9">
                             <div class="menu_wrap d-none d-lg-block">
-                                <div class="menu_wrap_inner d-flex align-items-center justify-content-end">
-                                    <div class="main-menu">
-                                        <nav>
-                                            <ul id="navigation">
-                                                <li><a href="A.medi/index.html">home</a></li>
-                                                <li><a href="#">Clientes <i class="ti-angle-down"></i></a>
-                                                <ul class="submenu">
-                                                    <li><a href="A.medi/blog.html">.......</a></li>
-                                                    <li><a href="A.medi/single-blog.html">.......</a></li>
-                                                </ul>
-                                                <li><a href="#">Administracion <i class="ti-angle-down"></i></a>
-                                                    <ul class="submenu">
-                                                        <li><a href="A.medi/blog.html">.......</a></li>
-                                                        <li><a href="A.medi/single-blog.html">.......</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="#">Doctores <i class="ti-angle-down"></i></a>
-                                                    <ul class="submenu">
-                                                        <li><a href="A.medi/department.html">.....</a></li>
-                                                        <li><a href="A.medi/elements.html">.....</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="A.medi/contact.html">Contact </a></li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                    <div class="book_room">
-                                        <div class="book_btn">
-                                            <a class="popup-with-form" href="A.medi/#test-form">Hacer una cita</a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="col-12">
@@ -107,9 +76,54 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="slider_text ">
-                               <?php 
-include'login_c.php'
-;?>
+<center>
+<div class="login-box">
+  <div class="login-logo">
+      <div class="card">
+                <div class="card-header">
+   <b>Clinica </b>Amigos en Apuros</a>
+                </div>
+      </div>
+  </div>
+  <!-- /.login-logo -->
+  
+    <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Inicia tu sesión</p>
+      <form action="controladores/Login_usarios.php" method="post">
+        <div class="input-group mb-3">
+            <input type="email" name="txtcorreo" class="form-control" placeholder="Usuario o correo electrónico ">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+              <div class="input-group mb-3">    
+            <input type="password" name="txtpassword" class="form-control" placeholder="Contraseña">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class=" boton_login">
+          <div class="col-6">
+            <button type="submit" name=="btnlogin"  class="btn btn-primary btn-block">Iniciar Sesión</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      <p class="mb-1">
+        <a href="forgot-password.html">¿Olvidaste tu contraseña?</a>
+      </p>
+      <p class="mb-0">
+          <a href="../clinica/new-register.php" class="text-center">Regístrate</a>
+      </p>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+</center>
                             </div>
                         </div>
                     </div>
@@ -163,18 +177,18 @@ include'login_c.php'
                                 Nuestras Especialidades
                             </h3>
                             <ul class="links">
-                                <li><a href="#">Pediatria</a></li>
-                                <li><a href="#">Cardiología</a></li>
-                                <li><a href="#">Alergología</a></li>
-                                <li><a href="#">Psiquiatría</a></li>
-                                <li><a href="#">Oncología médica</a></li>
-                                <li><a href="#">Neumología</a></li>
-                                <li><a href="#">Cirugía plástica</a></li>
-                                <li><a href="#">Dermatología</a></li>
-                                <li><a href="#">Otorrinolaringología</a></li>
-                                <li><a href="#">Urología</a></li>
-                                <li><a href="#">Ginecología</a></li>
-                                <li><a href="#">Oftalmología</a></li>
+                                <li><a>Pediatria</a></li>
+                                <li><a>Cardiología</a></li>
+                                <li><a>Alergología</a></li>
+                                <li><a>Psiquiatría</a></li>
+                                <li><a>Oncología médica</a></li>
+                                <li><a>Neumología</a></li>
+                                <li><a>Cirugía plástica</a></li>
+                                <li><a>Dermatología</a></li>
+                                <li><a>Otorrinolaringología</a></li>
+                                <li><a>Urología</a></li>
+                                <li><a>Ginecología</a></li>
+                                <li><a>Oftalmología</a></li>
                             </ul>
                         </div>
                     </div>
@@ -189,20 +203,6 @@ include'login_c.php'
                                 <li class="d-flex justify-content-between "><span>Sunday</span> <span>8.00 - 13.00</span></li>
                             </ul>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="copy-right_text">
-            <div class="container">
-                <div class="row">
-                    <div class="bordered_1px "></div>
-                    <div class="col-xl-12">
-                        <p class="copy_right text-center">
-                            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-                        </p>
                     </div>
                 </div>
             </div>

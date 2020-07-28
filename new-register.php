@@ -53,42 +53,6 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-xl-9 col-lg-9">
-                            <div class="menu_wrap d-none d-lg-block">
-                                <div class="menu_wrap_inner d-flex align-items-center justify-content-end">
-                                    <div class="main-menu">
-                                        <nav>
-                                            <ul id="navigation">
-                                                <li><a href="A.medi/index.html">home</a></li>
-                                                <li><a href="#">Clientes <i class="ti-angle-down"></i></a>
-                                                <ul class="submenu">
-                                                    <li><a href="A.medi/blog.html">.......</a></li>
-                                                    <li><a href="A.medi/single-blog.html">.......</a></li>
-                                                </ul>
-                                                <li><a href="#">Administracion <i class="ti-angle-down"></i></a>
-                                                    <ul class="submenu">
-                                                        <li><a href="A.medi/blog.html">.......</a></li>
-                                                        <li><a href="A.medi/single-blog.html">.......</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="#">Doctores <i class="ti-angle-down"></i></a>
-                                                    <ul class="submenu">
-                                                        <li><a href="A.medi/department.html">.....</a></li>
-                                                        <li><a href="A.medi/elements.html">.....</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li><a href="A.medi/contact.html">Contact </a></li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                    <div class="book_room">
-                                        <div class="book_btn">
-                                            <a class="popup-with-form" href="A.medi/#test-form">Hacer una cita</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -316,7 +280,6 @@
                                     </li>
                                 </ul>
                             </div>
-
                         </div>
                     </div>
                     <div class="col-xl-4 col-md-6 col-lg-4">
@@ -325,18 +288,18 @@
                                 Nuestras Especialidades
                             </h3>
                             <ul class="links">
-                                <li><a href="#">Pediatria</a></li>
-                                <li><a href="#">Cardiología</a></li>
-                                <li><a href="#">Alergología</a></li>
-                                <li><a href="#">Psiquiatría</a></li>
-                                <li><a href="#">Oncología médica</a></li>
-                                <li><a href="#">Neumología</a></li>
-                                <li><a href="#">Cirugía plástica</a></li>
-                                <li><a href="#">Dermatología</a></li>
-                                <li><a href="#">Otorrinolaringología</a></li>
-                                <li><a href="#">Urología</a></li>
-                                <li><a href="#">Ginecología</a></li>
-                                <li><a href="#">Oftalmología</a></li>
+                                <li><a>Pediatria</a></li>
+                                <li><a>Cardiología</a></li>
+                                <li><a>Alergología</a></li>
+                                <li><a>Psiquiatría</a></li>
+                                <li><a>Oncología médica</a></li>
+                                <li><a>Neumología</a></li>
+                                <li><a>Cirugía plástica</a></li>
+                                <li><a>Dermatología</a></li>
+                                <li><a>Otorrinolaringología</a></li>
+                                <li><a>Urología</a></li>
+                                <li><a>Ginecología</a></li>
+                                <li><a>Oftalmología</a></li>
                             </ul>
                         </div>
                     </div>
@@ -351,19 +314,6 @@
                                 <li class="d-flex justify-content-between "><span>Sunday</span> <span>8.00 - 13.00</span></li>
                             </ul>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="copy-right_text">
-            <div class="container">
-                <div class="row">
-                    <div class="bordered_1px "></div>
-                    <div class="col-xl-12">
-                        <p class="copy_right text-center">
-                            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                     </div>
                 </div>
             </div>
