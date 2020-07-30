@@ -29,7 +29,7 @@
               
           }else{
                 
-                 header("location:../login_cliente.php");     
+                 header("location:../login_clientes.php");     
               }    
         ?>
     </body>

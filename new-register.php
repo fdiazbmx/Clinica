@@ -1,3 +1,6 @@
+<?php 
+include '../Clinica/controladores/new-registro_clientes.php';
+?>
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -70,9 +73,8 @@
    <div class="card">
     <div class="card-body register-card-body">
       <p class="login-box-msg">Datos Generales</p>
-
-      <form action="../clinica/controladores/registro_clientes.php" method="post">
-        <div class="input-group mb-3">
+      <form action="../Clinica/new-register.php" method="post" enctype="multipart/form-data">
+         <div class="input-group mb-3">
           <input type="text" name="Nombres" class="form-control"class="input-group date form-control" placeholder="Nombres">
           <div class="input-group-append">
             <div class="input-group-text">
@@ -225,13 +227,22 @@
             </div>
           </div>
         </div>
+        <div class="form-group">
+                    <label for="exampleInputFile">Foto De Perfil</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" name="fotoPerfil" class="custom-file-input" id="fotoPerfil">
+                        <label class="custom-file-label" for="exampleInputFile">Elegir Una Foto</label>
+                      </div>
+                    </div>
+                  </div>
           <!-- /.col -->
-          <div class="col-5">
-            <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+          <div class="col-9">
+              <button type="submit" name="save_picture" class="btn btn-primary btn-block" value="upload">Registrarse</button>
           </div>
           <!-- /.col -->
-        </div>
       </form>
+ </div>
       <a href="../clinica/login_clientes.php" class="text-center">Ya Estoy Registrado</a>
     </div>
     <!-- /.form-box -->

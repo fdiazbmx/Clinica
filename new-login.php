@@ -90,7 +90,8 @@
     <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Inicia tu sesión</p>
-      <form action="controladores/Login_usarios.php" method="post">
+    </div>
+        <form action="controladores/new-Login_usarios.php" method="post">
         <div class="input-group mb-3">
             <input type="email" name="txtcorreo" class="form-control" placeholder="Usuario o correo electrónico ">
           <div class="input-group-append">
@@ -107,8 +108,8 @@
             </div>
           </div>
         </div>
-        <div class=" boton_login">
-          <div class="col-6">
+        <div>
+          <div class="col-9">
             <button type="submit" name=="btnlogin"  class="btn btn-primary btn-block">Iniciar Sesión</button>
           </div>
           <!-- /.col -->
@@ -119,9 +120,10 @@
       <p class="mb-0">
           <a href="../clinica/new-register.php" class="text-center">Regístrate</a>
       </p>
-    </div>
     <!-- /.login-card-body -->
-  </div>
+    </form>
+    </div>
+    </div>
 </div>
 </center>
                             </div>
