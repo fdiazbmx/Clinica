@@ -91,7 +91,7 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Inicia tu sesión</p>
     </div>
-        <form action="controladores/new-Login_usarios.php" method="post">
+        <form action="controladores/new-Login_usuarios.php" method="post">
         <div class="input-group mb-3">
             <input type="email" name="txtcorreo" class="form-control" placeholder="Usuario o correo electrónico ">
           <div class="input-group-append">
