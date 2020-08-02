@@ -27,7 +27,7 @@
      }else{
        echo '<script>alert("no es la misma");</script>';
        
-       header("location:../register.php") ;
+     header("location:../register.php") ;
          
      }  
      
@@ -43,7 +43,7 @@
       $resultado->execute();
       $resultado1->execute();
       
-      header("location:../login.php");
+     header("location:../login.php");
      
      if(!$resultado){   
          echo'error';
