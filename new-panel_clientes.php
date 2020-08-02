@@ -89,7 +89,7 @@
                      $resultado=$conn->prepare($sql);
                      $resultado->execute(array($_SESSION["usuario"]));
                      while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
-                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].' '.$nombre['Apellidos'].'</a>';
+                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'</a>';
                       }
                 ?>
         </div>
