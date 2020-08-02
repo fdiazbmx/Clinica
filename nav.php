@@ -13,7 +13,7 @@
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
               <li><a href="" class="dropdown-item">Administrador</a></li>
               <li><a href="" class="dropdown-item">Empleados</a></li>
-              <li><a href="../Clinica/login.php" class="dropdown-item">Clientes</a></li>
+              <li><a href="../Clinica/login_clientes.php" class="dropdown-item">Clientes</a></li>
 
               <li class="dropdown-divider"></li>
             </ul>

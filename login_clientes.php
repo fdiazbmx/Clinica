@@ -40,8 +40,8 @@
 <body 
 <?php 
 include 'nav.php';
-include'login_c.php'
-;?>
+include'login_c.php';
+?>
 <!-- jQuery -->
 <script src="adminlte/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -74,6 +74,9 @@ include'login_c.php'
 <script src="adminlte/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="adminlte/dist/js/demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="sweetalert2.all.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </body>
 <footer class="page-footer font-small teal pt-4">
 <?php include('../clinica/footer.php');?>
