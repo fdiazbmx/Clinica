@@ -174,7 +174,7 @@ while ($especialidad = $resultado->fetch(pdo::FETCH_ASSOC)) {
 //$sql="SELECT * FROM persona WHERE CodTipoPersona = 2";
 $sql = "SELECT * FROM persona p,empleados e,medico m WHERE P.CodPersona=E.CodPersona AND E.CodEmpleado=m.CodEmpleado and CodEspecialidad = ?";
 $resultado = $conn->prepare($sql);
-$resultado->execute(array("1"));
+$resultado->execute(array("2"));
 while ($empleado = $resultado->fetch(pdo::FETCH_ASSOC)) {
     echo '<option value="' . $empleado[Nombres] . '">' . $empleado[Nombres] . ' ' . $empleado[Apellidos] . '</option>';
 }
