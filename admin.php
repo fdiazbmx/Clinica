@@ -86,7 +86,6 @@ if (@!$_SESSION['user']) {
 
 				echo "<table border='1'; class='table table-hover';>";
 					echo "<tr class='warning'>";
-						echo "<td>Id</td>";
 						echo "<td>Correo</td>";
 						echo "<td>Password</td>";
 						echo "<td>Password del Administrador</td>";
@@ -101,7 +100,6 @@ if (@!$_SESSION['user']) {
 			<?php 
 				 while($arreglo=mysqli_fetch_array($query)){
 				  	echo "<tr class='success'>";
-				    	echo "<td>$arreglo[0]</td>";
 				    	echo "<td>$arreglo[1]</td>";
 				    	echo "<td>$arreglo[2]</td>";
 				    	echo "<td>$arreglo[3]</td>";
@@ -149,7 +147,6 @@ if (@!$_SESSION['user']) {
 
 				echo "<table border='1'; class='table table-hover';>";
 					echo "<tr class='warning'>";
-						echo "<td>CodPersona</td>";
 						echo "<td>Nombres</td>";
 						echo "<td>Apellidos</td>";
 						echo "<td>Genero</td>";
@@ -174,7 +171,7 @@ if (@!$_SESSION['user']) {
 			<?php 
 				 while($arreglo=mysqli_fetch_array($query)){
 				  	echo "<tr class='success'>";
-				    	echo "<td>$arreglo[0]</td>";
+
 				    	echo "<td>$arreglo[1]</td>";
 				    	echo "<td>$arreglo[2]</td>";
 				    	echo "<td>$arreglo[3]</td>";

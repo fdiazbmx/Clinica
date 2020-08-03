@@ -38,13 +38,13 @@ session_start();
 		}else{
 			echo '<script>alert("CONTRASEÑA INCORRECTA")</script> ';
 		
-			echo "<script>location.href='index1.php'</script>";
+			echo "<script>location.href='login_admin.php'</script>";
 		}
 	}else{
 		
 		echo '<script>alert("ESTE USUARIO NO EXISTE, PORFAVOR REGISTRESE PARA PODER INGRESAR")</script> ';
 		
-		echo "<script>location.href='index1.php'</script>";	
+		echo "<script>location.href='login_admin.php'</script>";	
 
 	}
 
