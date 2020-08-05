@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>      
-    </head>
-    <body>
-        <?php
+<?php
+     if(isset($_POST['save_picture'])){
      $reg_Nombres =$_POST["Nombres"];
      $reg_apellidos =$_POST["Apellidos"];
      $reg_genero=$_POST["genero"];
@@ -22,16 +16,17 @@
      $reg_password=$_POST["Contraseña"];
      $reg_password2=$_POST["Contraseña2"];
      
+     $_fotoPerfil_name = $_FILES['fotoPerfil']['name'];
+     $_fotoPerfil_type = $_FILES['fotoPerfil']['type'];
+     $_fotoPerfil_size = $_FILES['fotoPerfil']['size'];
+     $_fotoPerfil_tem = $_FILES['fotoPerfil']['tmp_name'];
+     $_fotoPerfil_store="img/".$_fotoPerfil_name;
+
+     move_uploaded_file($_fotoPerfil_tem, $_fotoPerfil_store);
+  
      if($reg_password==$reg_password2){
         include '../controladores/conexion.php'; 
-     }else{
-       echo '<script>alert("no es la misma");</script>';
-       
-     header("location:../register.php") ;
-         
-     }  
-     
-     $sql="INSERT INTO `persona`(`Nombres`, `Apellidos`, `Genero`, `FechaNacimiento`, `EstadoCivil`, `Direccion`,"
+        $sql="INSERT INTO `persona`(`Nombres`, `Apellidos`, `Genero`, `FechaNacimiento`, `EstadoCivil`, `Direccion`,"
              . " `Telefono`, `Celular`, `CodPais`, `CodIdentificacion`, `Nume_Identificacion`, `CodTipoSangre`,"
              . " `CodTipoPersona`, `FechaModicicaion`) VALUES ('$reg_Nombres','$reg_apellidos',$reg_genero,$reg_fecha_nacimiento,$reg_estado_civil,'$reg_direccion','$reg_num_telefono','$reg_num_Celular',$reg_Pais,'$reg_TipoIdentidad','$reg_num_identidad',$reg_tipo_sangre,'3',now())";
     
@@ -42,16 +37,12 @@
 
       $resultado->execute();
       $resultado1->execute();
-      
-     header("location:../login.php");
-     
-     if(!$resultado){   
-         echo'error';
+      header("location:login_c.php");
      }else{
-         echo 'correcto';
+       //echo '<script>alert("no es la misma");</script>';
+         echo '<script type="text/javascript">alert("Su Clave de verificación es Distinta");window.location.href="../register.php";</script>';
+       
+     //header("location:../register.php") ;
          
+     }  
      }
-     
-        ?>
-    </body>
-</html>

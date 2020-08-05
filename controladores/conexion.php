@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <?php
+<?php
         $servername = "localhost";
         $username = "root";
         $password = "";
@@ -21,5 +13,3 @@
           echo "Connection failed: " . $e->getMessage() ;
         }
         ?>
-    </body>
-</html>

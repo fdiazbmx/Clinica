@@ -50,7 +50,7 @@
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <li><a href="panel_principal.php"><i class="fas fa-sign-out" aria-hidden="true"></i>Cerrar Sesión</a></li>
+        <li><a href="../clinica/controladores/cerrar.php"><i class="fas fa-sign-out" aria-hidden="true"></i>Cerrar Sesión</a></li>
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -67,7 +67,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="imagenes/descarga.png" class="img-circle elevation-2" alt="User Image">
+            <img src="img/.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
                <?php
@@ -126,6 +126,33 @@
       <div class="container">
 		<div class="content">
 			<h2> Actualización</h2>
+                        <?php
+                        
+     if(isset($_POST['actualizar'])){
+     $reg_Nombres =$_POST["Nombres"];
+     $reg_apellidos =$_POST["Apellidos"];
+     $reg_estado_civil=$_POST["estado_civil"];
+     $reg_direccion=$_POST["direccion"];
+     $reg_num_telefono=$_POST["num_telefono"];
+     $reg_num_Celular=$_POST["num_Celular"];
+     $user=$_SESSION["usuario"];
+     $sql="UPDATE persona SET Nombres='$reg_Nombres', Apellidos = '$reg_apellidos' , EstadoCivil =$reg_estado_civil, Direccion = '$reg_direccion',"
+             . " Telefono = '$reg_num_telefono',Celular = '$reg_num_Celular' WHERE CodPersona = (SELECT CodPersona FROM usuario where correo = '$user' )";
+    
+     $resultado=$conn->prepare($sql); 
+      $resultado->execute();
+      
+     
+     if($resultado){   
+         echo '<script type="text/javascript">alert("Datos Actualizados Correctamente");window.location.href="panel_clientes.php";</script>';
+     }else{
+         echo 'error';
+     }    
+     }  
+     
+     
+     
+        ?>
    <center>
   <div class="content-header">
       <div class="container-fluid">
@@ -144,10 +171,10 @@
         <div class="input-group mb-3">
              <?php
       $user=$_SESSION["usuario"];
-          $sql1="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
-                     $resultado1=$conn->prepare($sql);
-                     $resultado1->execute(array($user));
-                     while ($nombre=$resultado1->fetch(pdo::FETCH_ASSOC)){  
+          $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
+                     $resultado=$conn->prepare($sql);
+                     $resultado->execute(array($user));
+                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){  
                       echo   "<input type='text' name='Nombres' class='form-control'class='input-group date form-control' value='$nombre[Nombres]'>";
                       }     
                 ?>
@@ -173,8 +200,39 @@
             </div>
           </div>
         </div>
-          <div class="input-group mb-3">
-         <textarea name="direccion" class="form-control" placeholder="Dirección"></textarea>
+           <div class="input-group mb-3">
+               <select name="estado_civil" class="form-control"required="">
+                            <?php
+      $user=$_SESSION["usuario"];
+          $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
+                     $resultado=$conn->prepare($sql);
+                     $resultado->execute(array($user));
+                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){  
+                      echo   "<option disabled selected>Estado Civil</option>";
+                      }     
+                ?>
+                            <option value="'Soltero'">Soltero</option>
+			    <option value="'Casado'">Casado</option>
+                            <option value="'Unión Libre'">Unión Libre</option>
+                            <option value="'Viudo'">Viudo</option>
+                            
+	     </select>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas"></span>
+            </div>
+          </div>
+        </div>
+          <div class="input-group mb-3" btsExpInput>
+              <?php
+      $user=$_SESSION["usuario"];
+          $sql1="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
+                     $resultado1=$conn->prepare($sql);
+                     $resultado1->execute(array($user));
+                     while ($nombre=$resultado1->fetch(pdo::FETCH_ASSOC)){  
+                      echo   "<input type='text' name='direccion' class='form-control'class='input-group date form-control' value='$nombre[Direccion]'>";
+                      }     
+                ?>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas"></span>
@@ -182,7 +240,15 @@
           </div>
         </div>
           <div class="input-group mb-3">
-        <input type="text" name="num_telefono" class="form-control" placeholder="Telefono" required>
+              <?php
+      $user=$_SESSION["usuario"];
+          $sql1="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
+                     $resultado1=$conn->prepare($sql);
+                     $resultado1->execute(array($user));
+                     while ($nombre=$resultado1->fetch(pdo::FETCH_ASSOC)){  
+                      echo   "<input type='text' name='num_telefono' class='form-control'class='input-group date form-control' value='$nombre[Telefono]'>";
+                      }     
+                ?>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-phone"></span>
@@ -190,32 +256,24 @@
           </div>
         </div>
           <div class="input-group mb-3">
-        <input type="text" name="num_Celular" class="form-control" placeholder="Celular" required>
+              <?php
+      $user=$_SESSION["usuario"];
+          $sql1="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
+                     $resultado1=$conn->prepare($sql);
+                     $resultado1->execute(array($user));
+                     while ($nombre=$resultado1->fetch(pdo::FETCH_ASSOC)){  
+                      echo   "<input type='text' name='num_Celular' class='form-control'class='input-group date form-control' value='$nombre[Celular]'>";
+                      }     
+                ?>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-phone"></span>
             </div>
           </div>
         </div>
-        <div class="input-group mb-3">
-          <input type="password" name="Contraseña" class="form-control" placeholder="Contraseña">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="password" name="Contraseña2" class="form-control" placeholder="Repetir Contraseña">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div>
           <!-- /.col -->
           <div class="col-5">
-            <button type="submit" class="btn btn-primary btn-block">Actualizar</button>
+              <button type="submit" name="actualizar" class="btn btn-primary btn-block">Actualizar</button>
           </div>
           <!-- /.col -->
         </div>

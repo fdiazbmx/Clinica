@@ -1,5 +1,4 @@
 <?php
-$alerta ='';
          if(!empty($_POST))
          {
              if(empty($_POST['txtcorreo'])||empty($_POST['txtpassword'])){
@@ -18,7 +17,7 @@ $alerta ='';
                     
           if($numero_registro!=0){  
               session_start();
-              $_SESSION["usuario"]=$_POST['txtcorreo'];  
+              $_SESSION["usuario"]=$_POST['txtcorreo'];
               header("location:../clinica/panel_clientes.php");
               
           }else{
@@ -67,8 +66,6 @@ $alerta ='';
           <div>
             <button type="submit" name=="btnlogin" class="btn btn-primary btn-block">Iniciar Sesión</button>
           </div>
-            <!--/<div class="alert-warning"><?php echo isset($alerta) ? $alerta: ''?></div>-->
-          <!-- /.col -->
         </div>
       <p class="mb-1">
           <a href="recuperar_contraseña.php">¿Olvidaste tu contraseña?</a>

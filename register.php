@@ -1,3 +1,6 @@
+<?php 
+include '../Clinica/controladores/new-registro_clientes.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,16 +28,15 @@
         <div class="login-box">   
 <div class="register-box">
   <div class="register-logo">
-    <a href="../controladores/registro_clientes"><b>Clinica </b>Amigos En Apuros</a>
+    <a href="register.php" method="post" enctype="multipart/form-data"><b>Clinica </b>Amigos En Apuros</a>
   </div>
 
   <div class="card">
     <div class="card-body register-card-body">
       <p class="login-box-msg">Datos Generales</p>
-
-      <form action="../clinica/controladores/registro_clientes.php" method="post">
+      <form action="../Clinica/register.php" method="post" enctype="multipart/form-data">
         <div class="input-group mb-3">
-          <input type="text" name="Nombres" class="form-control"class="input-group date form-control" placeholder="Nombres">
+            <input type="text" name="Nombres" class="form-control"class="input-group date form-control" placeholder="Nombres" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -42,7 +44,7 @@
           </div>
         </div>
           <div class="input-group mb-3">
-          <input type="text" name="Apellidos" class="form-control" placeholder="Apellidos">
+          <input type="text" name="Apellidos" class="form-control" placeholder="Apellidos" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -66,7 +68,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-         <input type="text" name="fecha_nacimiento" class="input-group date form-control" date="" data-date-format="dd-mm-yyyy" placeholder="Fecha de nacimiento 'dd-mm-yyyy'" required>
+         <input type="text" name="fecha_nacimiento" class="input-group date form-control" date="" data-date-format="yyyy-mm-dd" placeholder="Fecha de nacimiento 'yyyy-mm-dd'" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas"></span>
@@ -109,10 +111,10 @@
           <div class="input-group mb-3">
              <select name="estado_civil" class="form-control">
 			    <option disabled selected>Estado Civil</option>
-                            <option value="'s'">Soltero</option>
-			    <option value="'c'">Casado</option>
-                            <option value="'u'">Unión Libre</option>
-                            <option value="'v'">Viudo</option>
+                            <option value="'Soltero'">Soltero</option>
+			    <option value="'Casado'">Casado</option>
+                            <option value="'Unión Libre'">Unión Libre</option>
+                            <option value="'Viudo'">Viudo</option>
 	     </select>
           <div class="input-group-append">
             <div class="input-group-text">
@@ -138,8 +140,8 @@
             </div>
           </div>
         </div>
-          <div class="input-group mb-3">
-         <textarea name="direccion" class="form-control" placeholder="Dirección"></textarea>
+          <div class="input-group mb-3" btsExpInput>
+         <textarea name="direccion" class="form-control" placeholder="Dirección" required></textarea>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas"></span>
@@ -158,18 +160,27 @@
         <input type="text" name="num_Celular" class="form-control" placeholder="Celular" required>
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-phone"></span>
+              <span class="fas fa-mobile"></span>
             </div>
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="email" name="CorreoElectronico" class="form-control" placeholder="Correo Electronico">
+            <input type="email" name="CorreoElectronico" class="form-control" placeholder="Correo Electronico" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
         </div>
+          <div class="form-group">
+                    <label for="exampleInputFile">Foto De Perfil</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" name="fotoPerfil" class="custom-file-input" id="fotoPerfil">
+                        <label class="custom-file-label" for="exampleInputFile">Elegir Una Foto</label>
+                      </div>
+                    </div>
+                  </div>
         <div class="input-group mb-3">
           <input type="password" name="Contraseña" class="form-control" placeholder="Contraseña">
           <div class="input-group-append">
@@ -188,7 +199,7 @@
         </div>
           <!-- /.col -->
           <div class="col-5">
-            <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+            <button type="submit" name="save_picture" class="btn btn-primary btn-block" value="upload">Registrarse</button>
           </div>
           <!-- /.col -->
         </div>
@@ -204,11 +215,18 @@
 <!-- /.register-box -->
 
 <!-- jQuery -->
-<script src="adminlte/plugins/jquery/jquery.min.js"></script>
+<script src="../Adminlte/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../Adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../Adminlte/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- AdminLTE App -->
-<script src="adminlte/dist/js/adminlte.min.js"></script>
+<script src="../Adminlte/dist/js/adminlte.min.js"></script>
+<script src="../Adminlte/dist/js/demo.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+  bsCustomFileInput.init();
+});
+</script>
 </body>
 <footer class="page-footer font-small teal pt-4">
 <?php include('../clinica/footer.php');?>
