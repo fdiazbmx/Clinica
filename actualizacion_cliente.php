@@ -65,17 +65,17 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="user-panel mt-2 pb-2 mb-3 d-flex">
         <div class="image">
-            <img src="img/.png" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
                <?php
                      $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
                      $resultado=$conn->prepare($sql);
                      $resultado->execute(array($_SESSION["usuario"]));
                      while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
-                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].' '.$nombre['Apellidos'].'</a>';
+                       echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
+        </div>
+        <div class='info'> ";
+                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'<br/>'.$nombre['Apellidos'].'</a>';
                       }
                 ?>
         </div>
@@ -230,7 +230,7 @@
                      $resultado1=$conn->prepare($sql);
                      $resultado1->execute(array($user));
                      while ($nombre=$resultado1->fetch(pdo::FETCH_ASSOC)){  
-                      echo   "<input type='text' name='direccion' class='form-control'class='input-group date form-control' value='$nombre[Direccion]'>";
+                      echo   "<input type='text' name='direccion' class='form-control'class='input-group date form-control' value='$nombre[Direccion]'>";  
                       }     
                 ?>
           <div class="input-group-append">

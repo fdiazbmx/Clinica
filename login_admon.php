@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Amigos en Apuros | Login</title>
+  <title>Amigos en Apuros | Login Admin</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -40,8 +40,54 @@
 <body 
 <?php 
 include 'nav_login.php';
-include'login_c.php';
+
 ?>
+    <center>
+  <div class="content-header">
+      <div class="container-fluid">
+        <div class="login-box">
+  <div class="login-logo">
+      <div class="card card-info">
+                <div >
+   <b>Clinica </b>Amigos en Apuros</a>
+                </div>
+      </div>
+  </div>
+  <!-- /.login-logo -->
+  
+    <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Inicia tu sesión</p>
+      <form action="validar.php" method="post">
+        <div class="input-group mb-3">
+            <input type="email" name="mail" class="form-control" placeholder="Usuario o correo electrónico"required>
+            
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+              <div class="input-group mb-3">    
+                  <input type="password" name="pass" class="form-control" placeholder="Contraseña" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row boton_login">
+          <div>
+            <button type="submit" name=="btnlogin" value="Ingresar" class="btn btn-primary btn-block">Iniciar Sesión</button>
+          </div>
+        </div>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+      </div><!-- /.container-fluid -->
+    </div>
+  </center>
 <!-- jQuery -->
 <script src="adminlte/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->

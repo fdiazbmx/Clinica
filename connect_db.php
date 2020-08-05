@@ -1,10 +1,10 @@
 <?php
 
 
-		$mysqli = new MySQLi("localhost", "root","", "clinica");
-		if ($mysqli -> connect_errno) {
-			die( "Fallo la conexión a MySQL: (" . $mysqli -> mysqli_connect_errno() 
-				. ") " . $mysqli -> mysqli_connect_error());
+		$con = new MySQLi("localhost", "root","", "clinica");
+		if ($con -> connect_errno) {
+			die( "Fallo la conexión a MySQL: (" . $con -> mysqli_connect_errno() 
+				. ") " . $con -> mysqli_connect_error());
 		}
 		else
 			//echo "Conexión exitossa!";

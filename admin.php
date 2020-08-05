@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <?php
+include 'nav_admin.php';
 session_start();
 if (@!$_SESSION['user']) {
-	header("Location:index1.php");
+	header("Location:panel_clientes.php");
 }elseif ($_SESSION['rol']==2) {
 	header("Location:panel_clientes.php");
 }
@@ -59,27 +60,17 @@ if (@!$_SESSION['user']) {
 
 <!-- ======================================================================================================================== -->
 <div class="row">
-	
-	
-		
 	<div class="span12">
-
-		<div class="caption">
-		
+		<div class="caption">		
 <!--///////////////////////////////////////////////////Empieza cuerpo del documento interno////////////////////////////////////////////-->
 		<h2> Administradores</h2>	
 		<div class="well well-small">
 		<hr class="soft"/>
 		<h4>Tabla de Administradores</h4>
-		<div class="row-fluid">
-		
-
-
-
+		<div class="row-fluid">		
 			<?php
-
 				require("connect_db.php");
-				$sql=("SELECT * FROM login");
+				$sql=("SELECT * FROM usuario");
 	
 //la variable  $mysqli viene de connect_db que lo traigo con el require("connect_db.php");
 				$query=mysqli_query($mysqli,$sql);
@@ -107,9 +98,6 @@ if (@!$_SESSION['user']) {
 
 				    	echo "<td><a href='actualizar.php?id=$arreglo[0]'><img src='imagenes/actualizar.gif' class='img-rounded'></td>";
 						echo "<td><a href='admin.php?id=$arreglo[0]&idborrar=2'><img src='imagenes/eliminar.png' class='img-rounded'/></a></td>";
-						
-
-						
 					echo "</tr>";
 				}
 
@@ -118,7 +106,7 @@ if (@!$_SESSION['user']) {
 					extract($_GET);
 					if(@$idborrar==2){
 		
-						$sqlborrar="DELETE FROM login WHERE id=$id";
+						$sqlborrar="DELETE FROM usuario WHERE id=$id";
 						$resborrar=mysqli_query($mysqli,$sqlborrar);
 						echo '<script>alert("REGISTRO ELIMINADO")</script> ';
 						//header('Location: proyectos.php');

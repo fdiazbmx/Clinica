@@ -38,7 +38,7 @@
 	</style>
 </head>
 <body 
-    <?php include 'nav.php';
+    <?php include 'nav_login.php';
  include 'imagencentral.php';
     ?>
   

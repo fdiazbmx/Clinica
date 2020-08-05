@@ -64,19 +64,19 @@ if (!isset($_SESSION["usuario"])) {
                 <!-- Sidebar -->
                 <div class="sidebar">
                     <!-- Sidebar user panel (optional) -->
-                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="user-panel mt-2 pb-2 mb-3 d-flex">
                         <div class="image">
-                            <img src="imagenes/descarga.png" class="img-circle elevation-2" alt="User Image">
-                        </div>
-                        <div class="info">
                             <?php
-                            $sql = "SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
-                            $resultado = $conn->prepare($sql);
-                            $resultado->execute(array($_SESSION["usuario"]));
-                            while ($nombre = $resultado->fetch(pdo::FETCH_ASSOC)) {
-                                echo '<a href="informacioncliente.php" class="d-block">' . $nombre['Nombres'] . ' ' . $nombre['Apellidos'] . '</a>';
-                            }
-                            ?>
+                     $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
+                     $resultado=$conn->prepare($sql);
+                     $resultado->execute(array($_SESSION["usuario"]));
+                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
+                       echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
+        </div>
+        <div class='info'> ";
+                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'<br/>'.$nombre['Apellidos'].'</a>';
+                      }
+                ?>
                         </div>
                     </div>
 
@@ -125,21 +125,18 @@ if (!isset($_SESSION["usuario"])) {
                                                 <hr />
 
                                                 <?php
-                                                
-                                                if (isset($_POST['add'])) {
+                                                $codpersona="";
+                                                if (isset($_POST['add'])) {                 
+                                                    $id_especialidad = $_POST["id_especialidad"];
+                                                    $fecha_cita = $_POST["fecha_cita"];
+                                                    $horainicial = $_POST["horainicial"];
+                                                    $codempleado = $_POST["CodEmpleado"];
+                                                    $codpersona=$_SESSION["CodPersona"];
 
-                                                    $id_paciente = mysqli_real_escape_string($conn, (strip_tags($_POST["id_paciente"], ENT_QUOTES))); //Escanpando caracteres 
-                                                    $id_especialidad = mysqli_real_escape_string($conn, (strip_tags($_POST["id_especialidad"], ENT_QUOTES))); //Escanpando caracteres 
-                                                    $fecha_cita = mysqli_real_escape_string($conn, (strip_tags($_POST["fecha_cita"], ENT_QUOTES))); //Escanpando caracteres 
-                                                    $horainicial = mysqli_real_escape_string($conn, (strip_tags($_POST["horainicial"], ENT_QUOTES))); //Escanpando caracteres 
-                                                    $horafinal = mysqli_real_escape_string($conn, (strip_tags($_POST["horafinal"], ENT_QUOTES))); //Escanpando caracteres 
-                                                    $id_empleado = mysqli_real_escape_string($conn, (strip_tags($_POST["id_empleado"], ENT_QUOTES))); //Escanpando caracteres 
-
-
-
-                                                    $insert = mysqli_query($conn, "INSERT INTO citas (id_paciente, id_especialidad, fecha_cita, horainicial, horafinal, id_empleado)
-                      VALUES( '$id_paciente','$id_especialidad', '$fecha_cita', '$horainicial', '$horafinal', '$id_empleado' )") or die(mysqli_error());
-                                                    if ($insert) {
+                                                    $sql = "INSERT INTO cita_medica (codpersona,Codestadocita,Codmedico,fechahora)VALUES( $codpersona,1,$codempleado, '$fecha_cita')";
+                                                    $resultado=$conn->prepare($sql); 
+                                                    $resultado->execute();
+                                                    if ($resultado) {
                                                         echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Bien hecho! Los datos han sido guardados con éxito.</div>';
                                                     } else {
                                                         echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudo guardar los datos !</div>';
@@ -174,9 +171,10 @@ while ($especialidad = $resultado->fetch(pdo::FETCH_ASSOC)) {
 //$sql="SELECT * FROM persona WHERE CodTipoPersona = 2";
 $sql = "SELECT * FROM persona p,empleados e,medico m WHERE P.CodPersona=E.CodPersona AND E.CodEmpleado=m.CodEmpleado and CodEspecialidad = ?";
 $resultado = $conn->prepare($sql);
-$resultado->execute(array("2"));
+$resultado->execute(array("1"));
 while ($empleado = $resultado->fetch(pdo::FETCH_ASSOC)) {
-    echo '<option value="' . $empleado[Nombres] . '">' . $empleado[Nombres] . ' ' . $empleado[Apellidos] . '</option>';
+    echo '<option value="' . $empleado[CodMedico] . '">' . $empleado[Nombres] . ' ' . $empleado[Apellidos] . '</option>';
+    $_SESSION['CodPersona']=$empleado[CodPersona];
 }
 ?>
                                                                 </select>
@@ -191,19 +189,11 @@ while ($empleado = $resultado->fetch(pdo::FETCH_ASSOC)) {
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-3 control-label">Hora Inicial de la cita</label>
+                                                            <label class="col-sm-3 control-label">Hora de la cita</label>
                                                             <div class="col-sm-4">
                                                                 <input type='time' name="horainicial" id="horainicial" class="form-control"  />
                                                             </div>
                                                         </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-3 control-label">Hora Final de la cita</label>
-                                                            <div class="col-sm-4">
-                                                                <input type='time' name="horafinal" id="horafinal" class="form-control"  />
-                                                            </div>
-                                                        </div>
-
 
                                                         <div class="form-group">
                                                             <label class="col-sm-3 control-label">&nbsp;</label>

@@ -65,17 +65,17 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="user-panel mt-2 pb-2 mb-3 d-flex">
         <div class="image">
-          <img src="imagenes/descarga.png" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-               <?php
+          <?php
                      $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
                      $resultado=$conn->prepare($sql);
                      $resultado->execute(array($_SESSION["usuario"]));
                      while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
-                     echo '<a href="#" class="d-block">'.$nombre['Nombres'].' '.$nombre['Apellidos'].'</a>';
+                       echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
+        </div>
+        <div class='info'> ";
+                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'<br/>'.$nombre['Apellidos'].'</a>';
                       }
                 ?>
         </div>
@@ -133,7 +133,7 @@
                 <div class="card-header text-muted border-bottom-0">
                   Paciente
                 </div>
-                <div class="card-body pt-0">
+                <div class="card-body pt-1">
                   <div class="row">
                     <div class="col-6">
                      <?php
@@ -144,22 +144,23 @@
                      echo '<h2 class="lead"><b>'.$nombre['Nombres'].' '.$nombre['Apellidos'].'</b></h2></br>';
                       }
                      ?>
-                      <ul class="ml-4 mb-0 fa-ul text-muted">
+                      <ul class="ml-3 mb-0 fa-ul text-muted">
                           <?php
                      $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
                      $resultado=$conn->prepare($sql);
                      $resultado->execute(array($_SESSION["usuario"]));
                      while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
-                         echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Fecha de Nacimiento: '.$nombre['FechaNacimiento'].'</li>';
-                     echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Dirección: '.$nombre['Direccion'].'</li>';
-                     echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Telefono: '.$nombre['Telefono'].'</li>';
-                     echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Celular: '.$nombre['Celular'].'</li>';
-                      }
+                         echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-calendar"></i></span> Fecha de Nacimiento: '.$nombre['FechaNacimiento'].'</li>';
+                         echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-user"></i></span> No. de Identificación: <br/> '.$nombre['Nume_Identificacion'].'</li>';
+                         echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-home"></i></span> Dirección: '.$nombre['Direccion'].'</li>';
+                         echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Telefono: '.$nombre['Telefono'].'</li>';
+                         echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-mobile"></i></span> Celular: '.$nombre['Celular'].'</li>';
+                         echo "</div>
+                    <div class='col-6 text-center'>
+                      <img src='img/$nombre[FotoPerfil]' alt='' class='img-circle img-fluid'>
+                    </div>"; 
+                     }
                      ?>
-                    </div>
-                    <div class="col-6 text-center">
-                      <img src="imagenes/descarga.png" alt="" class="img-circle img-fluid">
-                    </div>
                   </div>
                 </div>
                 <div class="card-footer">

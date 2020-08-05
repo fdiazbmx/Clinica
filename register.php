@@ -21,7 +21,7 @@ include '../Clinica/controladores/new-registro_clientes.php';
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body 
-    <?php include ('../clinica/nav.php');?>
+    <?php include ('../clinica/nav_login.php');?>
 <center>
   <div class="content-header">
       <div class="container-fluid">
@@ -68,7 +68,7 @@ include '../Clinica/controladores/new-registro_clientes.php';
           </div>
         </div>
         <div class="input-group mb-3">
-         <input type="text" name="fecha_nacimiento" class="input-group date form-control" date="" data-date-format="yyyy-mm-dd" placeholder="Fecha de nacimiento 'yyyy-mm-dd'" required>
+         <input type="text" name="fecha_nacimiento" class="input-group date form-control" date="" data-date-format="dd-mm-yyyy" placeholder="Fecha de nacimiento  dd/mm/yyyy" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas"></span>
