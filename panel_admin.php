@@ -32,9 +32,10 @@
 <body 
     <?php
       include ('controladores/conexion.php');
+      include ('connect_db.php');   
       session_start();
-       if(!isset($_SESSION["usuario"])){
-        header("location:../clinica/panel_principal.php");
+      if($_SESSION["rol"] != 1){
+          header("location:../clinica/panel_principal.php");
       }
     ?> 
 <div class="hold-transition sidebar-mini layout-fixed">

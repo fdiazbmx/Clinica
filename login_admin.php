@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<?php
- include("nav.php");
-?>
-<!-- Tell the browser to be responsive to screen width -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Amigos en Apuros | Login Admin</title>
+  <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="adminlte/plugins/fontawesome-free/css/all.min.css">
@@ -26,35 +26,105 @@
   <link rel="stylesheet" href="adminlte/plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-	<title>Clinica | Amigos en Apuros </title>
+  
+	<style>
+		.content {
+			margin-top: 50px;
+		}
+		img{
+          width:800px;
+          height:400px;
+          } 
+	</style>
 </head>
-<body background="imagenes/fondotot.jpg" style="background-attachment: fixed" >
-	<center><div class="tit"><h2 style="color: #0000FF; ">Inicio de sesión</h2>
-		<center><div class="Ingreso">
-	
+<body 
+<?php 
+include 'nav_login.php';
 
-	<table border="0" align="center" valign="middle">
-		<tr>
-		<td rowspan=2>
-		<form action="validar.php" method="post">
-
-		<table border="0">
-
-		<tr><td><label style="font-size: 14pt"><b>Correo: </b></label></td>
-			<td width=80> <input class="form-group has-success" style="border-radius:15px;" type="text" name="mail"></td></tr>
-		<tr><td><label style="font-size: 14pt"><b>Contraseña: </b></label></td>
-			<td witdh=80><input style="border-radius:15px;" type="password" name="pass"></td></tr>
-		<tr><td></td>
-			<td width=80 align=center><input class="btn btn-primary" type="submit" value="Ingresar"></td>
-			</tr></tr></table>
-		</form>
-
-
-		</td>
-		</tr>
-		</table>
-		</div></center></div></center>
-
-	
+?>
+    <center>
+  <div class="content-header">
+      <div class="container-fluid">
+        <div class="login-box">
+  <div class="login-logo">
+      <div class="card card-info">
+                <div >
+   <b>Clinica </b>Amigos en Apuros</a>
+                </div>
+      </div>
+  </div>
+  <!-- /.login-logo -->
+  
+    <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Inicia tu sesión</p>
+      <form action="validar.php" method="post">
+        <div class="input-group mb-3">
+            <input type="email" name="mail" class="form-control" placeholder="Usuario o correo electrónico"required>
+            
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+              <div class="input-group mb-3">    
+                  <input type="password" name="pass" class="form-control" placeholder="Contraseña" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row boton_login">
+          <div>
+            <button type="submit" name=="btnlogin" value="Ingresar" class="btn btn-primary btn-block">Iniciar Sesión</button>
+          </div>
+        </div>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+      </div><!-- /.container-fluid -->
+    </div>
+  </center>
+<!-- jQuery -->
+<script src="adminlte/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="adminlte/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+</script>
+<!-- Bootstrap 4 -->
+<script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="adminlte/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="adminlte/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="adminlte/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="adminlte/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="adminlte/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="adminlte/plugins/moment/moment.min.js"></script>
+<script src="adminlte/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="adminlte/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="adminlte/dist/js/adminlte.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="adminlte/dist/js/pages/dashboard.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="adminlte/dist/js/demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="sweetalert2.all.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </body>
+<footer class="page-footer font-small teal pt-4">
+<?php include('../clinica/footer.php');?>
+</footer>
 </html>

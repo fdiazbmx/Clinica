@@ -33,7 +33,7 @@
     <?php
       include ('controladores/conexion.php');
       session_start();
-       if(!isset($_SESSION["usuario"])){
+      if($_SESSION["rol"] != 3 && !isset($_SESSION["usuario"])){
         header("location:../clinica/panel_principal.php");
       }
     ?> 

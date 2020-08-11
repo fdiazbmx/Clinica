@@ -50,7 +50,7 @@
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <li><a href="../clinica/controladores/cerrar.php"><i class="fa fa-sign" aria-hidden="true"></i>  Cerrar Sesión</a></li>
+        <li><a href="../clinica/controladores/cerrar.php"><i class="fa fa-sign-out" aria-hidden="true"></i>  Cerrar Sesión</a></li>
     </ul>
   </nav>
   <!-- /.navbar -->

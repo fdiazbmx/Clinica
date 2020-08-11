@@ -18,6 +18,7 @@
           if($numero_registro!=0){  
               session_start();
               $_SESSION["usuario"]=$_POST['txtcorreo'];
+              $_SESSION['rol']=3;
               header("location:../clinica/panel_clientes.php");
               
           }else{
