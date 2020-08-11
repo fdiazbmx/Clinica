@@ -17,11 +17,11 @@ session_start();
 	if($f2=mysqli_fetch_assoc($sql2)){
 		if($pass==$f2['Contraseña']){
 			$_SESSION['id']=$f2['CodUsuario'];
-			$_SESSION['user']=$f2['Correo'];
+			$_SESSION['usuario']=$f2['Correo'];
 			$_SESSION['rol']=$f2['CodPerfil'];
 
 			echo '<script>alert("BIENVENIDO ADMINISTRADOR")</script> ';
-			echo "<script>location.href='admon.php'</script>";
+			echo "<script>location.href='panel_admin.php'</script>";
 		
 		}
 	}

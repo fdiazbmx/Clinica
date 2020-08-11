@@ -1,3 +1,6 @@
+<?php
+include("connect_db.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,7 +61,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo --> 
-    <a href="panel_clientes.php" class="brand-link">
+    <a href="panel_admin.php" class="brand-link">
       <span class="brand-text font-weight-light"><i class="fa fa-ambulance" aria-hidden="true"></i>  Amigos en Apuros</span>
     </a>
 
@@ -86,30 +89,26 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-header">PACIENTE</li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
-              <p>
-                Citas Medicas
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
+          <li class="nav-header">ADMINISTRADOR</li>
               <li class="nav-item">
-                <a href="NuevaCita.php" class="nav-link">
+                <a href="doctores.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Crear Cita</p>
+                  <p>Doctores</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
+                <a href="especialidades.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Citas</p>
+                  <p>Especialidades</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="salas.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Salas</p>
                 </a>
               </li>
               </ul>
-          </li>
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -120,7 +119,77 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-          <?php include '../Clinica/imagencentral.php';?>  
+          <div class="container">
+		<div class="content">
+			<h2>Especialidades Disponibles</h2>
+			<hr />
+           <?php
+			if(isset($_GET['aksi']) == 'delete'){
+				// escaping, additionally removing everything that could be (html/javascript-) code
+				$nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES)));
+				$cek = mysqli_query($con, "SELECT * FROM especialidades WHERE codespecialidad='$nik'");
+				if(mysqli_num_rows($cek) == 0){
+					echo '<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se encontraron datos.</div>';
+				}else{
+					$delete = mysqli_query($con, "DELETE FROM especialidades WHERE codespecialidad='$nik'");
+					if($delete){
+						echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Datos eliminado correctamente.</div>';
+					}else{
+						echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, no se pudo eliminar los datos.</div>';
+					}
+				}
+			}
+			?>
+         </br>
+		 <div class="col-lg-12">
+             <a href="agregar_especialidad.php" class="btn btn-primary " style="float: right" ><i class="fa fa-plus" aria-hidden="true"></i> Agregar Especialidad</a>
+		 </div>
+		</br>
+		
+    </div> 
+	</form>
+	
+    </br>
+			<div class="table-responsive">
+			<table class="table table-striped table-hover">
+			
+				<tr>
+                <th>No.</th>
+				<th>Descripción </th>
+				<th>Precio</th>
+                 <th>Acciones</th>
+				</tr>
+				<?php
+                
+					$sql = mysqli_query($con, "SELECT * FROM especialidades ORDER BY codespecialidad ASC");
+			
+				if(mysqli_num_rows($sql) == 0){
+					echo '<tr><td colspan="8">No hay datos.</td></tr>';
+				}else{
+					$no = 1;
+					while($row = mysqli_fetch_assoc($sql)){
+						echo '
+						<tr>
+                            <td>'.$no.'</td> 
+                            <td>'.$row['Nombre'].'</td>
+							<td>'.'L.'.$row['Salario'].'</td>
+							<td>';
+                            echo ' 
+				     <a href="editar_especialidad.php?nik='.$row['CodEspecialidad'].'" title="Editar datos" class="btn btn-success"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <a href="especialidades.php ?aksi=delete&nik='.$row['CodEspecialidad'].'" title="Eliminar" onclick="return confirm(\'Esta seguro de borrar la especialidad de '.$row['Nombre'].'?\')" 
+                        
+                        class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+					</td>   	
+						</tr>
+						';
+						$no++;
+					}
+				}
+				?>
+                            
+			</table>
+			</div>
+		</div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>

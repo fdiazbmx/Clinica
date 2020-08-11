@@ -58,7 +58,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo --> 
-    <a href="panel_clientes.php" class="brand-link">
+    <a href="panel_admin.php" class="brand-link">
       <span class="brand-text font-weight-light"><i class="fa fa-ambulance" aria-hidden="true"></i>  Amigos en Apuros</span>
     </a>
 
@@ -86,30 +86,26 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-header">PACIENTE</li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
-              <p>
-                Citas Medicas
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
+          <li class="nav-header">ADMINISTRADOR</li>
               <li class="nav-item">
-                <a href="NuevaCita.php" class="nav-link">
+                <a href="doctores.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Crear Cita</p>
+                  <p>Doctores</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
+                <a href="especialidades.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Citas</p>
+                  <p>Especialidades</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="salas.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Salas</p>
                 </a>
               </li>
               </ul>
-          </li>
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->

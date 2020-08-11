@@ -142,6 +142,7 @@
                      $resultado->execute(array($_SESSION["usuario"]));
                      while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
                      echo '<h2 class="lead"><b>'.$nombre['Nombres'].' '.$nombre['Apellidos'].'</b></h2></br>';
+                     $_SESSION['CodPersona'] = $nombre['CodPersona'];
                       }
                      ?>
                       <ul class="ml-3 mb-0 fa-ul text-muted">

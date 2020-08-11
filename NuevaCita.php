@@ -36,180 +36,179 @@ if (!isset($_SESSION["usuario"])) {
     header("location:../clinica/panel_principal.php");
 }
 ?> 
-    <div class="hold-transition sidebar-mini layout-fixed">
-        <div class="wrapper">
+<div class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
 
-            <!-- Navbar -->
-            <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
-                <!-- Left navbar links -->
-                <ul class="navbar-nav">
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-dark navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+    </ul>
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+        <li><a href="../clinica/controladores/cerrar.php"><i class="fas fa-sign-out" aria-hidden="true"></i>Cerrar Sesión</a></li>
+    </ul>
+</nav>
+<!-- /.navbar -->
+
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<!-- Brand Logo --> 
+<a href="panel_clientes.php" class="brand-link">
+    <span class="brand-text font-weight-light"><i class="fa fa-ambulance" aria-hidden="true"></i>  Amigos en Apuros</span>
+</a>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-2 pb-2 mb-3 d-flex">
+        <div class="image">
+            <?php
+            $sql = "SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
+            $resultado = $conn->prepare($sql);
+            $resultado->execute(array($_SESSION["usuario"]));
+            while ($nombre = $resultado->fetch(pdo::FETCH_ASSOC)) {
+                echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
+            </div>
+            <div class='info'> ";
+                echo '<a href="informacioncliente.php" class="d-block">' . $nombre['Nombres'] . '<br/>' . $nombre['Apellidos'] . '</a>';
+            }
+            ?>
+        </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+            with font-awesome or any other icon font library -->
+            <li class="nav-header">PACIENTE</li>
+            <li class="nav-item has-treeview">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-edit"></i>
+                    <p>
+                        Cita Medica
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                        <a href="NuevaCita.php" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Crear Cita</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pages/forms/advanced.html" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Citas</p>
+                        </a>
                     </li>
                 </ul>
-                <!-- Right navbar links -->
-                <ul class="navbar-nav ml-auto">
-                    <li><a href="../clinica/controladores/cerrar.php"><i class="fas fa-sign-out" aria-hidden="true"></i>Cerrar Sesión</a></li>
-                </ul>
-            </nav>
-            <!-- /.navbar -->
+            </li>
+<!-- /.sidebar-menu -->
+</div>
+<!-- /.sidebar -->
+</aside>
 
-            <!-- Main Sidebar Container -->
-            <aside class="main-sidebar sidebar-dark-primary elevation-4">
-                <!-- Brand Logo --> 
-                <a href="panel_clientes.php" class="brand-link">
-                    <span class="brand-text font-weight-light"><i class="fa fa-ambulance" aria-hidden="true"></i>  Amigos en Apuros</span>
-                </a>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="container">
+                <div class="content">
+                    <h2> Agregar Cita</h2>
+                    <hr />
 
-                <!-- Sidebar -->
-                <div class="sidebar">
-                    <!-- Sidebar user panel (optional) -->
-                    <div class="user-panel mt-2 pb-2 mb-3 d-flex">
-                        <div class="image">
-                            <?php
-                     $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
-                     $resultado=$conn->prepare($sql);
-                     $resultado->execute(array($_SESSION["usuario"]));
-                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
-                       echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
-        </div>
-        <div class='info'> ";
-                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'<br/>'.$nombre['Apellidos'].'</a>';
-                      }
+<?php
+$codpersona = "";
+if (!empty($_POST['add'])) {
+    $id_especialidad = $_POST["id_especialidad"];
+    $fecha_cita = $_POST["fecha_cita"];
+    $horainicial = $_POST["horainicial"];
+    $codempleado = $_POST["CodEmpleado"];
+    $codpersona = $_SESSION["CodPersona"];
+
+    $sql = "INSERT INTO cita_medica (codpersona,Codestadocita,Codmedico,fechahora)VALUES( $codpersona,1,$codempleado, '$fecha_cita')";
+    $resultado = $conn->prepare($sql);
+    $resultado->execute();
+    if ($resultado) {
+        echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Bien hecho! Los datos han sido guardados con éxito.</div>';
+    } else {
+        echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudo guardar los datos !</div>';
+    }
+}
+?>
+
+<form class="form-horizontal" action="" method="post">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Especialidad</label>
+        <div class="col-sm-3">
+            <select name="id_especialidad" class="form-control">
+                <option value=""> ------ </option>
+                <?php
+                $sql = "SELECT * FROM especialidades";
+                $resultado = $conn->prepare($sql);
+                $resultado->execute(array(""));
+                while ($especialidad = $resultado->fetch(pdo::FETCH_ASSOC)) {
+                    echo '<option value="' . $especialidad[CodEspecialidad] . '">' . $especialidad[Nombre] . '</option>';  
+                }
                 ?>
-                        </div>
-                    </div>
+            </select>
+        </div>
+    </div> 
+<form action="" method="post">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Medico</label>
+        <div class="col-sm-3">
+            <select name="CodEmpleado" class="form-control">
+                <option value=""> ----- </option>
+                <?php
+                $sql = "SELECT * FROM persona p,empleados e,medico m WHERE P.CodPersona=E.CodPersona AND E.CodEmpleado=m.CodEmpleado and CodEspecialidad = ?";
+                $resultado = $conn->prepare($sql);
+                $resultado->execute(array(1));
+                while ($empleado = $resultado->fetch(pdo::FETCH_ASSOC)) {
+                    echo '<option value="' . $empleado[CodMedico] . '">' . $empleado[Nombres] . ' ' . $empleado[Apellidos] . '</option>';
+                    
+                }
+                ?>
+            </select>
+        </div>
+    </div> 
 
-                    <!-- Sidebar Menu -->
-                    <nav class="mt-2">
-                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            <!-- Add icons to the links using the .nav-icon class
-                            with font-awesome or any other icon font library -->
-                            <li class="nav-header">PACIENTE</li>
-                            <li class="nav-item has-treeview">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-edit"></i>
-                                    <p>
-                                        Cita Medica
-                                        <i class="fas fa-angle-left right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="NuevaCita.php" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Crear Cita</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="pages/forms/advanced.html" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Citas</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!-- /.sidebar-menu -->
-                            </div>
-                            <!-- /.sidebar -->
-                            </aside>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Fecha de la Cita</label>
+        <div class="col-sm-4">
+            <input type="text" name="fecha_cita" class="input-group date form-control" date="" data-date-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" required>
+        </div>
+    </div>
 
-                            <!-- Content Wrapper. Contains page content -->
-                            <div class="content-wrapper">
-                                <!-- Content Header (Page header) -->
-                                <div class="content-header">
-                                    <div class="container-fluid">
-                                        <div class="container">
-                                            <div class="content">
-                                                <h2> Agregar Cita</h2>
-                                                <hr />
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Hora de la cita</label>
+        <div class="col-sm-4">
+            <input type='time' name="horainicial" id="horainicial" class="form-control"  />
+        </div>
+    </div>
 
-                                                <?php
-                                                $codpersona="";
-                                                if (isset($_POST['add'])) {                 
-                                                    $id_especialidad = $_POST["id_especialidad"];
-                                                    $fecha_cita = $_POST["fecha_cita"];
-                                                    $horainicial = $_POST["horainicial"];
-                                                    $codempleado = $_POST["CodEmpleado"];
-                                                    $codpersona=$_SESSION["CodPersona"];
-
-                                                    $sql = "INSERT INTO cita_medica (codpersona,Codestadocita,Codmedico,fechahora)VALUES( $codpersona,1,$codempleado, '$fecha_cita')";
-                                                    $resultado=$conn->prepare($sql); 
-                                                    $resultado->execute();
-                                                    if ($resultado) {
-                                                        echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Bien hecho! Los datos han sido guardados con éxito.</div>';
-                                                    } else {
-                                                        echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudo guardar los datos !</div>';
-                                                    }
-                                                }
-                                                ?>
-
-                                                <form class="form-horizontal" action="" method="post">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">Especialidad</label>
-                                                        <div class="col-sm-3">
-                                                            <select name="id_especialidad" class="form-control">
-                                                                <option value=""> ------ </option>
-<?php
-$sql = "SELECT * FROM especialidades";
-$resultado = $conn->prepare($sql);
-$resultado->execute(array(""));
-while ($especialidad = $resultado->fetch(pdo::FETCH_ASSOC)) {
-    echo '<option value="' . $especialidad[CodEspecialidad] . '">' . $especialidad[Nombre] . '</option>';
-}
-?>
-                                                            </select>
-                                                        </div>
-                                                    </div> 
-                                                    <form action="" method="post">
-                                                        <div class="form-group">
-                                                            <label class="col-sm-3 control-label">Medico</label>
-                                                            <div class="col-sm-3">
-                                                                <select name="CodEmpleado" class="form-control">
-                                                                    <option value=""> ----- </option>
-<?php
-//$sql="SELECT * FROM persona WHERE CodTipoPersona = 2";
-$sql = "SELECT * FROM persona p,empleados e,medico m WHERE P.CodPersona=E.CodPersona AND E.CodEmpleado=m.CodEmpleado and CodEspecialidad = ?";
-$resultado = $conn->prepare($sql);
-$resultado->execute(array("1"));
-while ($empleado = $resultado->fetch(pdo::FETCH_ASSOC)) {
-    echo '<option value="' . $empleado[CodMedico] . '">' . $empleado[Nombres] . ' ' . $empleado[Apellidos] . '</option>';
-    $_SESSION['CodPersona']=$empleado[CodPersona];
-}
-?>
-                                                                </select>
-                                                            </div>
-                                                        </div> 
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-3 control-label">Fecha de la Cita</label>
-                                                            <div class="col-sm-4">
-                                                                <input type="text" name="fecha_cita" class="input-group date form-control" date="" data-date-format="dd-mm-yyyy" placeholder="00-00-0000" required>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-3 control-label">Hora de la cita</label>
-                                                            <div class="col-sm-4">
-                                                                <input type='time' name="horainicial" id="horainicial" class="form-control"  />
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-3 control-label">&nbsp;</label>
-                                                            <div class="col-sm-6">
-                                                                <input type="submit" name="add" class="btn btn-sm btn-primary" value="Guardar datos">
-                                                                <a href="index.php" class="btn btn-sm btn-danger">Cancelar</a>
-                                                                <a href="citas.php" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Regresar</a>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                            </div>
-                                        </div>
-                                    </div><!-- /.row -->
-                                </div><!-- /.container-fluid -->
-                            </div>
-                            </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">&nbsp;</label>
+        <div class="col-sm-6">
+            <input type="submit" name="add" class="btn btn-sm btn-primary" value="Guardar datos">
+            <a href="index.php" class="btn btn-sm btn-danger">Cancelar</a>
+            <a href="citas.php" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Regresar</a>
+        </div>
+    </div>
+</form>
+</div>
+</div>
+</div><!-- /.row -->
+</div><!-- /.container-fluid -->
+</div>
+</div>
 
 <!-- jQuery -->
 <script src="adminlte/plugins/jquery/jquery.min.js"></script>

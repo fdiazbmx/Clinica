@@ -1,3 +1,6 @@
+<?php
+include("controladores/conexion.php")
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,8 +34,8 @@
 </head>
 <body 
     <?php
-      include ('controladores/conexion.php');
       session_start();
+       include("connect_db.php");
        if(!isset($_SESSION["usuario"])){
         header("location:../clinica/panel_principal.php");
       }
@@ -58,7 +61,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo --> 
-    <a href="panel_clientes.php" class="brand-link">
+    <a href="panel_admin.php" class="brand-link">
       <span class="brand-text font-weight-light"><i class="fa fa-ambulance" aria-hidden="true"></i>  Amigos en Apuros</span>
     </a>
 
@@ -86,30 +89,26 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-header">PACIENTE</li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
-              <p>
-                Citas Medicas
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
+          <li class="nav-header">ADMINISTRADOR</li>
               <li class="nav-item">
-                <a href="NuevaCita.php" class="nav-link">
+                <a href="doctores.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Crear Cita</p>
+                  <p>Doctores</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
+                <a href="especialidades.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Citas</p>
+                  <p>Especialidades</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="salas.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Salas</p>
                 </a>
               </li>
               </ul>
-          </li>
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -120,7 +119,63 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-          <?php include '../Clinica/imagencentral.php';?>  
+        <div class="container">
+		<div class="content">
+			<h2>Especialidad &raquo; Editar Datos</h2>
+			<hr />
+			
+			<?php
+			// escaping, additionally removing everything that could be (html/javascript-) code
+			$nik = $_GET["nik"];
+			$sql = mysqli_query($con, "SELECT * FROM especialidades WHERE codespecialidad='$nik'");
+			if(mysqli_num_rows($sql) == 0){
+				header("Location: panel_admin.php");
+			}else{
+				$row = mysqli_fetch_assoc($sql);
+			}
+			if(isset($_POST['save'])){
+				
+				$descripcion = $_POST["descripcion"];
+				$precio= $_POST["precio"];
+				
+				$update = mysqli_query($con, "UPDATE especialidades SET Nombre='$descripcion', Salario='$precio' WHERE codespecialidad='$nik'") or die(mysqli_error());
+				if($update){
+					//header("Location:editar_especialidad.php?nik=".$nik."&pesan=sukses");
+                                    echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Los datos han sido guardados con éxito.</div>';
+				}else{
+					echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error, no se pudo guardar los datos.</div>';
+				}
+			}
+			
+			if(isset($_GET['pesan']) == 'sukses'){
+				echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Los datos han sido guardados con éxito.</div>';
+			}
+			?>
+            		
+   </div>
+   </div>
+           <form class="form-horizontal" action="" method="post">
+                <div class="form-group">
+					<label class="col-sm-3 control-label">Nueva Especialidad</label>
+					<div class="col-sm-4">
+						<input type="text" name="descripcion" value="<?php echo $row ['Nombre']; ?>" class="form-control" placeholder="Nueva Especialidad" required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Precio</label>
+					<div class="col-sm-4">
+					<input type="text" name="precio" value="<?php echo $row ['Salario']; ?>" class="form-control" placeholder="Precio" required>
+					</div>
+                    </select> 
+				    </div>
+			   <div class="form-group">
+					<label class="col-sm-3 control-label">&nbsp;</label>
+					<div class="col-sm-6">
+					<input type="submit" name="save" class="btn btn-sm btn-primary" value="Guardar Cambios">
+                                        <a href="panel_admin.php" class="btn btn-sm btn-danger">Cancelar</a>
+					</div>
+				</div>
+			</form>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
