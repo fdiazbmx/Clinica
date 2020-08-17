@@ -1,32 +1,58 @@
 <?php
          if(!empty($_POST))
          {
-             if(empty($_POST['txtcorreo'])||empty($_POST['txtpassword'])){
-                 //$alerta = 'Ingrese su usuario y Clave';
-                 echo '<script type="text/javascript">alert("Ingrese su Usuario y Clave");window.location.href="login_clientes.php";</script>';
-             }else{
-                 include 'controladores/conexion.php';
-                 $login=htmlentities(addslashes($_POST["txtcorreo"]));  
-          $passwordlog=htmlentities(addslashes($_POST["txtpassword"]));
-          $sql="SELECT * FROM USUARIO WHERE CORREO= :txtcorreo AND CONTRASEÑA=:txtpassword";
-          $resultado=$conn->prepare($sql);
-          $resultado->bindValue(":txtcorreo", $login);
-          $resultado->bindValue(":txtpassword", $passwordlog);
-          $resultado->execute();
-          $numero_registro=$resultado->rowCount();
-                    
-          if($numero_registro!=0){  
-              session_start();
-              $_SESSION["usuario"]=$_POST['txtcorreo'];
-              $_SESSION['rol']=3;
-              header("location:../clinica/panel_clientes.php");
-              
-          }else{
-              echo '<script type="text/javascript">alert("Su Correo o Contraseña son Incorrectos");window.location.href="login_clientes.php";</script>';
-              //header("location:../clinica/login_clientes.php"); 
-              
-              }
-             }
+             if (empty($_POST['txtcorreo']) || empty($_POST['txtpassword'])) {
+    echo '<script type="text/javascript">alert("Ingrese su Usuario y Clave");window.location.href="login_clientes.php";</script>';
+} else {
+    require("connect_db.php");
+    $username = $_POST['txtcorreo'];
+    $pass = $_POST['txtpassword'];
+    $sql2 = mysqli_query($con, "SELECT * FROM usuario u, persona p WHERE u.codpersona=p.codpersona and correo='$username'");
+    if ($f2 = mysqli_fetch_assoc($sql2)) {
+        if ($pass == $f2['Contraseña']) {
+            session_start();
+            $_SESSION['id'] = $f2['CodUsuario'];
+            $_SESSION['usuario'] = $f2['Correo'];
+            $_SESSION['rol'] = $f2['CodPerfil'];
+            $nombre = $f2['Nombres'];
+            
+            if($_SESSION["rol"] == 3){
+                echo '<script>alert("BIENVENIDO $newObj = clone $nombre;")</script> ';
+            echo "<script>location.href='panel_clientes.php'</script>";
+            }else{
+                header("location:../clinica/panel_principal.php");   
+            }
+        } else {
+            echo '<script type="text/javascript">alert("Su Correo o Contraseña son Incorrectos");window.location.href="login_clientes.php";</script>';
+        }
+    }
+}
+//             if(empty($_POST['txtcorreo'])||empty($_POST['txtpassword'])){
+//                 //$alerta = 'Ingrese su usuario y Clave';
+//                 echo '<script type="text/javascript">alert("Ingrese su Usuario y Clave");window.location.href="login_clientes.php";</script>';
+//             }else{
+//                 include 'controladores/conexion.php';
+//                 $login=htmlentities(addslashes($_POST["txtcorreo"]));  
+//          $passwordlog=htmlentities(addslashes($_POST["txtpassword"]));
+//          $sql="SELECT * FROM USUARIO WHERE CORREO= :txtcorreo AND CONTRASEÑA=:txtpassword";
+//          $resultado=$conn->prepare($sql);
+//          $resultado->bindValue(":txtcorreo", $login);
+//          $resultado->bindValue(":txtpassword", $passwordlog);
+//          $resultado->execute();
+//          $numero_registro=$resultado->rowCount();
+//                    
+//          if($numero_registro!=0){  
+//              session_start();
+//              $_SESSION["usuario"]=$_POST['txtcorreo'];
+//              $_SESSION['rol']=3;
+//              header("location:../clinica/panel_clientes.php");
+//              
+//          }else{
+//              echo '<script type="text/javascript">alert("Su Correo o Contraseña son Incorrectos");window.location.href="login_clientes.php";</script>';
+//              //header("location:../clinica/login_clientes.php"); 
+//              
+//              }
+//             }
          }
 ?>
 <center>

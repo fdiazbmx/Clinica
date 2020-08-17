@@ -30,11 +30,7 @@
 </head>
 <body
 <?php
-include ('controladores/conexion.php');
-session_start();
-if (!isset($_SESSION["usuario"])) {
-    header("location:../clinica/panel_principal.php");
-}
+include ('controladores/sesion_cliente.php');
 ?> 
 <div class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -65,19 +61,7 @@ if (!isset($_SESSION["usuario"])) {
 <div class="sidebar">
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-2 pb-2 mb-3 d-flex">
-        <div class="image">
-            <?php
-            $sql = "SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
-            $resultado = $conn->prepare($sql);
-            $resultado->execute(array($_SESSION["usuario"]));
-            while ($nombre = $resultado->fetch(pdo::FETCH_ASSOC)) {
-                echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
-            </div>
-            <div class='info'> ";
-                echo '<a href="informacioncliente.php" class="d-block">' . $nombre['Nombres'] . '<br/>' . $nombre['Apellidos'] . '</a>';
-            }
-            ?>
-        </div>
+        <?php include 'foto_nombre.php';?>
     </div>
 
     <!-- Sidebar Menu -->
@@ -151,11 +135,12 @@ if (!empty($_POST['add'])) {
             <select name="id_especialidad" class="form-control">
                 <option value=""> ------ </option>
                 <?php
+                $_SESSION[especialidad] = "";
                 $sql = "SELECT * FROM especialidades";
                 $resultado = $conn->prepare($sql);
                 $resultado->execute(array(""));
                 while ($especialidad = $resultado->fetch(pdo::FETCH_ASSOC)) {
-                    echo '<option value="' . $especialidad[CodEspecialidad] . '">' . $especialidad[Nombre] . '</option>';  
+                    echo '<option value="' .$_SESSION[especialidad]=$especialidad[CodEspecialidad]. '">' . $especialidad[Nombre] . '</option>';                                      
                 }
                 ?>
             </select>
@@ -170,7 +155,7 @@ if (!empty($_POST['add'])) {
                 <?php
                 $sql = "SELECT * FROM persona p,empleados e,medico m WHERE P.CodPersona=E.CodPersona AND E.CodEmpleado=m.CodEmpleado and CodEspecialidad = ?";
                 $resultado = $conn->prepare($sql);
-                $resultado->execute(array(1));
+                $resultado->execute(array("$_SESSION[especialidad]"));
                 while ($empleado = $resultado->fetch(pdo::FETCH_ASSOC)) {
                     echo '<option value="' . $empleado[CodMedico] . '">' . $empleado[Nombres] . ' ' . $empleado[Apellidos] . '</option>';
                     

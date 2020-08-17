@@ -69,19 +69,9 @@ include("connect_db.php");
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
-        <div class="image">
-            <?php
-                     $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
-                     $resultado=$conn->prepare($sql);
-                     $resultado->execute(array($_SESSION["usuario"]));
-                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
-                       echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
-        </div>
-        <div class='info'> ";
-                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'<br/>'.$nombre['Apellidos'].'</a>';
-                      }
-                ?>
-        </div>
+        <?php
+            include 'foto_nombre.php';
+        ?>
       </div>
 
       <!-- Sidebar Menu -->
@@ -135,6 +125,7 @@ include("connect_db.php");
 						}else{
 							$delete = mysqli_query($con, "DELETE FROM persona WHERE codpersona='$nik'");
                                                         $delete = mysqli_query($con, "DELETE FROM usuario WHERE codpersona='$nik'");
+                                                        $delete = mysqli_query($con, "DELETE FROM empleados WHERE codpersona='$nik'");
 							if($delete){
 								echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Datos eliminado correctamente.</div>';
 							}else{

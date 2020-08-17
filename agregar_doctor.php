@@ -68,19 +68,9 @@ include("controladores/conexion.php")
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
-        <div class="image">
-            <?php
-                     $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
-                     $resultado=$conn->prepare($sql);
-                     $resultado->execute(array($_SESSION["usuario"]));
-                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
-                       echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
-        </div>
-        <div class='info'> ";
-                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'<br/>'.$nombre['Apellidos'].'</a>';
-                      }
-                ?>
-        </div>
+        <?php
+            include 'foto_nombre.php';
+        ?>
       </div>
 
       <!-- Sidebar Menu -->
@@ -138,6 +128,7 @@ include("controladores/conexion.php")
                             $reg_num_identidad = $_POST["num_identidad"];
                             $reg_tipo_sangre = $_POST["tipo_sangre"];
                             $reg_salario = $_POST["salario"];
+                            $reg_especialidad = $_POST["Especialidad"];
                             $reg_email = $_POST["CorreoElectronico"];
                             $reg_password = $_POST["Contraseña"];
                             $reg_password2 = $_POST["Contraseña2"];
@@ -162,10 +153,15 @@ include("controladores/conexion.php")
                             
                             $insert = mysqli_query($con,"INSERT INTO `usuario`(`Correo`, `Contraseña`, `CodPersona`, `CodPerfil`, `FechaCreacion`) VALUES ('$reg_email','$reg_password',LAST_INSERT_ID(),2,now())") or die(mysqli_error());
                             
-                            $sql = mysqli_query($con, "SELECT * FROM usuario where correo = $_SESSION[usuario]");
-                                               
-                            $insert = mysqli_query($con,"INSERT INTO `empleados`(`CodPersona`, `Salario`, `FechaContratacion`,`FechaModificacion`) VALUES (1,$reg_salario,now(),now())") or die(mysqli_error());
+                            $codpersona2 = "";
+                            $sql = mysqli_query($con, "SELECT * FROM usuario where correo = '$reg_email'");
 
+					while($row = mysqli_fetch_assoc($sql)){
+                                        $codpersona2= $row['CodPersona'];
+                                        }                                                                                      
+                            $insert = mysqli_query($con,"INSERT INTO `empleados`(`CodPersona`, `Salario`, `FechaContratacion`,`FechaModificacion`) VALUES ($codpersona2,$reg_salario,now(),now())") or die(mysqli_error());
+                            
+                            $insert1 = mysqli_query($con,"INSERT INTO `medico`(`CodEmpleado`, `CodEspecialidad`) VALUES (LAST_INSERT_ID(),'$reg_especialidad')") or die(mysqli_error());
 
                             if ($insert) {
                                 echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Bien hecho! Los datos han sido guardados con éxito.</div>';
@@ -288,15 +284,15 @@ include("controladores/conexion.php")
                                             </div>
                                             <div class="input-group mb-3">
                                                 <select name="Especialidad" class="form-control">
-                                                     <option disabled selected>Especialidad</option>
+                                                    <option disabled selected>Especialidad</option>
                                                     <?php
-                $sql = "SELECT * FROM especialidades";
-                $resultado = $conn->prepare($sql);
-                $resultado->execute(array(""));
-                while ($especialidad = $resultado->fetch(pdo::FETCH_ASSOC)) {
-                    echo '<option value="' . $especialidad[CodEspecialidad] . '">' . $especialidad[Nombre] . '</option>';  
-                }
-                ?>
+                                                    $sql = "SELECT * FROM especialidades";
+                                                    $resultado = $conn->prepare($sql);
+                                                    $resultado->execute(array(""));
+                                                    while ($especialidad = $resultado->fetch(pdo::FETCH_ASSOC)) {
+                                                        echo '<option value="' . $especialidad[CodEspecialidad] . '">' . $especialidad[Nombre] . '</option>';
+                                                    }
+                                                    ?>
                                                 </select>
                                                 <div class="input-group-append">
                                                     <div class="input-group-text">

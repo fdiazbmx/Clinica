@@ -16,6 +16,7 @@ if(isset($_POST['save_picture'])){
      $reg_password=$_POST["Contraseña"];
      $reg_password2=$_POST["Contraseña2"];
      
+     
      $_fotoPerfil_name = $_FILES['fotoPerfil']['name'];
      $_fotoPerfil_type = $_FILES['fotoPerfil']['type'];
      $_fotoPerfil_size = $_FILES['fotoPerfil']['size'];
@@ -24,12 +25,13 @@ if(isset($_POST['save_picture'])){
 
      move_uploaded_file($_fotoPerfil_tem, $_fotoPerfil_store);
      
+     
      if($reg_password==$reg_password2){
      include '../clinica/controladores/conexion.php';
      }else{
      echo '<script type="text/javascript">alert("Su Clave de verificación es Distinta");window.location.href="../clinica/register.php";</script>';
        
-     }  
+     }
      
      $sql="INSERT INTO `persona`(`Nombres`, `Apellidos`, `Genero`, `FechaNacimiento`, `EstadoCivil`,FotoPerfil,`Direccion`,"
              . " `Telefono`, `Celular`, `CodPais`, `CodIdentificacion`, `Nume_Identificacion`, `CodTipoSangre`,"

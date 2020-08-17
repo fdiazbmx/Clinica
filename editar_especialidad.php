@@ -69,19 +69,9 @@ include("controladores/conexion.php")
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
-        <div class="image">
-            <?php
-                     $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
-                     $resultado=$conn->prepare($sql);
-                     $resultado->execute(array($_SESSION["usuario"]));
-                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
-                       echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
-        </div>
-        <div class='info'> ";
-                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'<br/>'.$nombre['Apellidos'].'</a>';
-                      }
-                ?>
-        </div>
+        <?php
+            include 'foto_nombre.php';
+        ?>
       </div>
 
       <!-- Sidebar Menu -->

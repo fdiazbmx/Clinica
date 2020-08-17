@@ -1,6 +1,3 @@
-<?php
-include("controladores/conexion.php")
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,8 +31,9 @@ include("controladores/conexion.php")
 </head>
 <body 
     <?php
+      include ('controladores/conexion.php');
+      include("connect_db.php");
       session_start();
-       include("connect_db.php");
        if(!isset($_SESSION["usuario"])){
         header("location:../clinica/panel_principal.php");
       }
@@ -109,53 +107,127 @@ include("controladores/conexion.php")
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="container">
-		<div class="content">
-			<h2>Agregar Nueva Especialidad</h2>
+         <div class="content">
+			<h2>Salas</h2>
 			<hr />
-			
-			<?php
-                        if (isset($_POST['add'])) {
-                            $descripcion = $_POST["descripcion"];
-                            $precio = $_POST["precio"];
 
-                            $insert = mysqli_query($con, "INSERT INTO `especialidades`( `Nombre`, `Salario`) VALUES ('$descripcion','$precio')") or die(mysqli_error());
-				
-                            if ($insert) {
-                                echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Bien hecho! Los datos han sido guardados con éxito.</div>';
-                            } else {
-                                echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudo guardar los datos !</div>';
-                            }
-                        }
-                        ?>
-   </div>
-   </div>
-           <form class="form-horizontal" action="" method="post">
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Nueva Especialidad</label>
-					<div class="col-sm-3">
-					<input type="text" name="descripcion" class="form-control" placeholder="Nueva Especialidad"  required>
-					</div>
-				</div>
-                <div class="form-group">
-					<label class="col-sm-3 control-label">Precio</label>
-					<div class="col-sm-3">
-					<input type="text" name="precio" class="form-control" placeholder="Precio"  required>
-					</div>
-					</select>
-					</div>
-				<div class="form-group">
-				    <label class="col-sm-3 control-label">&nbsp;</label>
-				    <div class="col-sm-6">
-				    <input type="submit" name="add" class="btn btn-sm btn-primary" value="Guardar nueva especialidad">
-                                    <a href="panel_admin.php" class="btn btn-sm btn-danger">Cancelar</a>
-					</div>
-				</div>
-			</form>
+			<?php
+			if(isset($_GET['aksi']) == 'delete'){
+				// escaping, additionally removing everything that could be (html/javascript-) code
+				$nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES)));
+				$cek = mysqli_query($con, "SELECT * FROM clinica_sala WHERE CodClinicaSala='$nik'");
+				if(mysqli_num_rows($cek) == 0){
+					echo '<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se encontraron datos.</div>';
+				}else{
+					$delete = mysqli_query($con, "DELETE FROM clinica_sala WHERE CodClinicaSala='$nik'");
+					if($delete){
+						echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Datos eliminado correctamente.</div>';
+					}else{
+						echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, no se pudo eliminar los datos.</div>';
+					}
+				}
+			}
+			?>
+         </br>
+		 <div class="col-lg-12">
+                     <a href="agregar_sala.php" class="btn btn-primary " style="float: right" ><i class="fa fa-plus" aria-hidden="true"></i> Agregar Sala</a>
+		 </div>
+		</br>
+			<br />
+			<div class="table-responsive">
+			<table class="table table-striped table-hover">
+				<tr>
+                    <th>No</th>
+					<th>Nombre del Medico </th>
+					<th>Nombre de la Sala</th>
+                    <th>Especialidad</th>
+					<th>Acciones</th>
+				</tr>
+				<?php
+                                
+					$sql = mysqli_query($con, "SELECT nombres, apellidos,CodClinicaSala, c.Nombre AS nombrec, e.nombre as nombree FROM clinica_sala c, especialidades e, medico m, empleados em,persona p where c.codespecialidad=e.codespecialidad and c.codmedico=m.codmedico and m.CodEmpleado=em.CodEmpleado AND em.CodPersona = p.codpersona ORDER BY CodClinicaSala ASC");
+			
+				if(mysqli_num_rows($sql) == 0){
+					echo '<tr><td colspan="8">No hay datos.</td></tr>';
+				}else{
+					$no = 1;
+					while($row = mysqli_fetch_assoc($sql)){
+                                            $nombreCompleto =$row['nombres'].' '.$row['apellidos'];
+						echo '
+						<tr>
+							<td>'.$no.'</td> 
+							<td>'.$nombreCompleto.'</td>
+							<td>'.$row['nombrec'].'</td>
+							<td>'.$row['nombree'].'</td>';
+							
+                     
+                                                                                            
+						echo ' 
+						 <td> 
+
+							<a href="editarsala.php?nik='.$row['CodClinicaSala'].'" title="Editar datos" class="btn btn-success "><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+							<a href="salas.php ?aksi=delete&nik='.$row['CodClinicaSala'].'" title="Eliminar" onclick="return confirm(\'Esta seguro de borrar los datos '.$row['nombrec'].'?\')" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+							</td>   	
+						</tr>
+						';
+						$no++;
+					}
+				}
+				?>
+                            
+			</table>
+			</div>
+		</div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
 </div>
+<!--    <script
+        src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous"></script>
+    <<script src="funciones.js"></script>
+<div class="modal fade" id="modal_salas" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+            
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Agregar Sala</h4>
+        </div>
+        <div class="modal-body">
+            <form id="modal">
+                <div class="col-lg-12">
+                <label for="">Salas</label>
+                <input type="text" class="form-control" id="sala" placeholder="Nombre de la Sala"><br>
+            </div>
+            <div class="col-lg-12">
+                <label for="">No. de Sala</label>
+                <input type="text" class="form-control" id="No_sala" placeholder="Nombre de la Sala"><br>
+            </div>
+            <div class="col-lg-12" class="input-group mb-3">
+                <label for="">Especialidad que Pertenece</label>
+                <select id="Especialidad" class="form-control" >
+                    <option value=""> ------ </option>
+                <?php
+                $sql = "SELECT * FROM especialidades";
+                $resultado = $conn->prepare($sql);
+                $resultado->execute(array(""));
+                while ($especialidad = $resultado->fetch(pdo::FETCH_ASSOC)) {
+                    echo '<option value="' . $especialidad[CodEspecialidad] . '">' . $especialidad[Nombre] . '</option>';  
+                }
+                ?>
+                </select>
+            </div>
+                <div class="modal-footer">
+          <button type="submit"  class="btn btn-primary btn-block"  data-dismiss="modal">Guardar</button>
+        </div>
+            </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>-->
 
 <!-- jQuery -->
 <script src="adminlte/plugins/jquery/jquery.min.js"></script>
@@ -187,7 +259,12 @@ include("controladores/conexion.php")
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="adminlte/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="adminlte/dist/js/demo.js"></script>
+
+<script>
+function abrirmodal(){
+    $("#modal_salas").modal("show");
+}
+</script>
 </body>
 <footer class="page-footer font-small teal pt-4">
 <?php include('../clinica/footer.php');?>

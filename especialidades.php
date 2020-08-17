@@ -69,19 +69,9 @@ include("connect_db.php");
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
-        <div class="image">
-            <?php
-                     $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
-                     $resultado=$conn->prepare($sql);
-                     $resultado->execute(array($_SESSION["usuario"]));
-                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
-                       echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
-        </div>
-        <div class='info'> ";
-                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'<br/>'.$nombre['Apellidos'].'</a>';
-                      }
-                ?>
-        </div>
+        <?php
+            include 'foto_nombre.php';
+        ?>
       </div>
 
       <!-- Sidebar Menu -->
@@ -160,32 +150,31 @@ include("connect_db.php");
                  <th>Acciones</th>
 				</tr>
 				<?php
-                
-					$sql = mysqli_query($con, "SELECT * FROM especialidades ORDER BY codespecialidad ASC");
-			
-				if(mysqli_num_rows($sql) == 0){
-					echo '<tr><td colspan="8">No hay datos.</td></tr>';
-				}else{
-					$no = 1;
-					while($row = mysqli_fetch_assoc($sql)){
-						echo '
+                                $sql = mysqli_query($con, "SELECT * FROM especialidades ORDER BY codespecialidad ASC");
+
+                                if (mysqli_num_rows($sql) == 0) {
+                                    echo '<tr><td colspan="8">No hay datos.</td></tr>';
+                                } else {
+                                    $no = 1;
+                                    while ($row = mysqli_fetch_assoc($sql)) {
+                                        echo '
 						<tr>
-                            <td>'.$no.'</td> 
-                            <td>'.$row['Nombre'].'</td>
-							<td>'.'L.'.$row['Salario'].'</td>
+                            <td>' . $no . '</td> 
+                            <td>' . $row['Nombre'] . '</td>
+							<td>' . 'L.' . $row['Salario'] . '</td>
 							<td>';
-                            echo ' 
-				     <a href="editar_especialidad.php?nik='.$row['CodEspecialidad'].'" title="Editar datos" class="btn btn-success"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                        <a href="especialidades.php ?aksi=delete&nik='.$row['CodEspecialidad'].'" title="Eliminar" onclick="return confirm(\'Esta seguro de borrar la especialidad de '.$row['Nombre'].'?\')" 
+                                        echo ' 
+				     <a href="editar_especialidad.php?nik=' . $row['CodEspecialidad'] . '" title="Editar datos" class="btn btn-success"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <a href="especialidades.php ?aksi=delete&nik=' . $row['CodEspecialidad'] . '" title="Eliminar" onclick="return confirm(\'Esta seguro de borrar la especialidad de ' . $row['Nombre'] . '?\')" 
                         
                         class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 					</td>   	
 						</tr>
 						';
-						$no++;
-					}
-				}
-				?>
+                                        $no++;
+                                    }
+                                }
+                                ?>
                             
 			</table>
 			</div>

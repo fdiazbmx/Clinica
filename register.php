@@ -123,7 +123,7 @@ include '../Clinica/controladores/new-registro_clientes.php';
           </div>
         </div>
           <div class="input-group mb-3">
-         <select name="tipo_sangre" class="form-control">
+         <select name="tipo_sangre" class="form-control" required>
 			    <option disabled selected>Tipo De Sangre</option>
                             <option value="1">O-</option>
                             <option value="2">O+</option>
@@ -176,7 +176,7 @@ include '../Clinica/controladores/new-registro_clientes.php';
                     <label for="exampleInputFile">Foto De Perfil</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" name="fotoPerfil" class="custom-file-input" id="fotoPerfil">
+                          <input type="file" name="fotoPerfil" value="1" class="custom-file-input" id="fotoPerfil">
                         <label class="custom-file-label" for="exampleInputFile">Elegir Una Foto</label>
                       </div>
                     </div>

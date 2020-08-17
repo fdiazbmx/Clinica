@@ -88,13 +88,13 @@
                with font-awesome or any other icon font library -->
           <li class="nav-header">DOCTOR</li>
               <li class="nav-item">
-                <a href="doctores.php" class="nav-link">
+                  <a href="citaspendientes.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Citas Pendientes</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="especialidades.php" class="nav-link">
+                <a href="citasatendidas.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Citas Atentidas</p>
                 </a>
@@ -132,10 +132,6 @@
 <!-- ChartJS -->
 <script src="adminlte/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
-<script src="adminlte/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="adminlte/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="adminlte/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="adminlte/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
