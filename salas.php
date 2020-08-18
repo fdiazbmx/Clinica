@@ -145,10 +145,32 @@
 				</tr>
 				<?php
                                 
-					$sql = mysqli_query($con, "SELECT nombres, apellidos,CodClinicaSala, c.Nombre AS nombrec, e.nombre as nombree FROM clinica_sala c, especialidades e, medico m, empleados em,persona p where c.codespecialidad=e.codespecialidad and c.codmedico=m.codmedico and m.CodEmpleado=em.CodEmpleado AND em.CodPersona = p.codpersona ORDER BY CodClinicaSala ASC");
+					$sql = mysqli_query($con, "SELECT nombres, apellidos,c.CodClinicaSala, c.Nombre AS nombrec, e.nombre as nombree FROM clinica_sala c, especialidades e, medico m, empleados em,persona p where c.codespecialidad=e.codespecialidad and c.CodClinicaSala=m.CodClinicaSala and m.CodEmpleado=em.CodEmpleado AND em.CodPersona = p.codpersona ORDER BY CodClinicaSala ASC");
+			
+				if(mysqli_num_rows($sql) == 0){
+                                    $sql = mysqli_query($con, "SELECT c.CodClinicaSala, c.Nombre AS nombrec, e.nombre as nombree FROM clinica_sala c, especialidades e where c.codespecialidad=e.codespecialidad ORDER BY CodClinicaSala ASC");
 			
 				if(mysqli_num_rows($sql) == 0){
 					echo '<tr><td colspan="8">No hay datos.</td></tr>';
+				}else{
+					$no = 1;
+					while($row = mysqli_fetch_assoc($sql)){                                            
+						echo '
+						<tr>
+							<td>'.$no.'</td> 
+							<td>Aun no Definido</td>
+							<td>'.$row['nombrec'].'</td>
+							<td>'.$row['nombree'].'</td>';							                                                                                                                
+						echo ' 
+						 <td> 
+							<a href="editarsala.php?nik='.$row['CodClinicaSala'].'" title="Editar datos" class="btn btn-success "><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+							<a href="salas.php ?aksi=delete&nik='.$row['CodClinicaSala'].'" title="Eliminar" onclick="return confirm(\'Esta seguro de borrar los datos '.$row['nombrec'].'?\')" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+							</td>   	
+						</tr>
+						';
+						$no++;
+					}                                                                                    
+                                        }					
 				}else{
 					$no = 1;
 					while($row = mysqli_fetch_assoc($sql)){
@@ -158,13 +180,9 @@
 							<td>'.$no.'</td> 
 							<td>'.$nombreCompleto.'</td>
 							<td>'.$row['nombrec'].'</td>
-							<td>'.$row['nombree'].'</td>';
-							
-                     
-                                                                                            
+							<td>'.$row['nombree'].'</td>';							                                                                                                                
 						echo ' 
 						 <td> 
-
 							<a href="editarsala.php?nik='.$row['CodClinicaSala'].'" title="Editar datos" class="btn btn-success "><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 							<a href="salas.php ?aksi=delete&nik='.$row['CodClinicaSala'].'" title="Eliminar" onclick="return confirm(\'Esta seguro de borrar los datos '.$row['nombrec'].'?\')" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 							</td>   	

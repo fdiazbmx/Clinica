@@ -129,9 +129,8 @@ include("controladores/conexion.php")
 				$precio= $_POST["precio"];
 				
 				$update = mysqli_query($con, "UPDATE especialidades SET Nombre='$descripcion', Salario='$precio' WHERE codespecialidad='$nik'") or die(mysqli_error());
-				if($update){
-					//header("Location:editar_especialidad.php?nik=".$nik."&pesan=sukses");
-                                    echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Los datos han sido guardados con éxito.</div>';
+				if($update){					
+                                    echo '<script type="text/javascript">alert("Especialidad Editada Correctamente");window.location.href="especialidades.php";</script>';
 				}else{
 					echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error, no se pudo guardar los datos.</div>';
 				}
@@ -162,7 +161,7 @@ include("controladores/conexion.php")
 					<label class="col-sm-3 control-label">&nbsp;</label>
 					<div class="col-sm-6">
 					<input type="submit" name="save" class="btn btn-sm btn-primary" value="Guardar Cambios">
-                                        <a href="panel_admin.php" class="btn btn-sm btn-danger">Cancelar</a>
+                                        <a href="especialidades.php" class="btn btn-sm btn-danger">Cancelar</a>
 					</div>
 				</div>
 			</form>

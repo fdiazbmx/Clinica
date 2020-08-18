@@ -114,6 +114,7 @@ include("controladores/conexion.php")
 			<hr />
 
 			<?php
+                         include("connect_db.php");
                         if (isset($_POST['add'])) {
                             $reg_Nombres = $_POST["Nombres"];
                             $reg_apellidos = $_POST["Apellidos"];
@@ -128,11 +129,22 @@ include("controladores/conexion.php")
                             $reg_num_identidad = $_POST["num_identidad"];
                             $reg_tipo_sangre = $_POST["tipo_sangre"];
                             $reg_salario = $_POST["salario"];
-                            $reg_especialidad = $_POST["Especialidad"];
-                            $reg_email = $_POST["CorreoElectronico"];
+                            $reg_especialidad = $_POST["Especialidad"];                            
+                            if(!empty($_POST["CorreoElectronico"])){                                
+                                                    $sql = "SELECT * FROM usuario";
+                                                    $resultado = $conn->prepare($sql);
+                                                    $resultado->execute(array(""));
+                                                    while ($usuario = $resultado->fetch(pdo::FETCH_ASSOC)) {
+                                                        if($usuario["Correo"]!= $_POST["CorreoElectronico"]){                                                           
+                                                            $reg_email = $_POST["CorreoElectronico"];
+                                                        }else{
+                                                            echo '<script type="text/javascript">alert("Ese Correo ya Existe, Intente con Otro.");window.location.href="agregar_doctor.php";</script>';                                                            
+                                                        }                                                            
+                                                    }                                                    
+                            }
                             $reg_password = $_POST["Contraseña"];
                             $reg_password2 = $_POST["Contraseña2"];
-
+                                                        
                             $_fotoPerfil_name = $_FILES['fotoPerfil']['name'];
                             $_fotoPerfil_type = $_FILES['fotoPerfil']['type'];
                             $_fotoPerfil_size = $_FILES['fotoPerfil']['size'];
@@ -140,9 +152,22 @@ include("controladores/conexion.php")
                             $_fotoPerfil_store = "img/" . $_fotoPerfil_name;
 
                             move_uploaded_file($_fotoPerfil_tem, $_fotoPerfil_store);
+                            
+                            if(!empty($_POST["sala"])){                                
+                                                    $sql = "SELECT * FROM Clinica_sala";
+                                                    $resultado = $conn->prepare($sql);
+                                                    $resultado->execute(array(""));
+                                                    while ($sala = $resultado->fetch(pdo::FETCH_ASSOC)) {
+                                                        if($sala["CodEspecialidad"]== $reg_especialidad){                                                            
+                                                            $reg_sala = $_POST["sala"];
+                                                        }else{
+                                                            echo '<script type="text/javascript">alert("La Especialidad de la Sala no es la Misma que la de el Doctor");window.location.href="agregar_doctor.php";</script>';                                                            
+                                                        }                                                            
+                                                    }                                                    
+                            }
 
                             if ($reg_password == $reg_password2) {
-                                include("connect_db.php");
+                                
                             } else {
                                 echo '<script type="text/javascript">alert("Su Clave de verificación es Distinta");window.location.href="agregar_doctor.php";</script>';
                             }
@@ -161,10 +186,10 @@ include("controladores/conexion.php")
                                         }                                                                                      
                             $insert = mysqli_query($con,"INSERT INTO `empleados`(`CodPersona`, `Salario`, `FechaContratacion`,`FechaModificacion`) VALUES ($codpersona2,$reg_salario,now(),now())") or die(mysqli_error());
                             
-                            $insert1 = mysqli_query($con,"INSERT INTO `medico`(`CodEmpleado`, `CodEspecialidad`) VALUES (LAST_INSERT_ID(),'$reg_especialidad')") or die(mysqli_error());
+                            $insert1 = mysqli_query($con,"INSERT INTO `medico`(`CodEmpleado`, `CodEspecialidad`,`CodClinicaSala`) VALUES (LAST_INSERT_ID(),'$reg_especialidad','$reg_sala')") or die(mysqli_error());
 
                             if ($insert) {
-                                echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Bien hecho! Los datos han sido guardados con éxito.</div>';
+                                echo '<script type="text/javascript">alert("Datos Ingresados Correctamente");window.location.href="doctores.php";</script>';
                             } else {
                                 echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudo guardar los datos !</div>';
                             }
@@ -291,6 +316,24 @@ include("controladores/conexion.php")
                                                     $resultado->execute(array(""));
                                                     while ($especialidad = $resultado->fetch(pdo::FETCH_ASSOC)) {
                                                         echo '<option value="' . $especialidad[CodEspecialidad] . '">' . $especialidad[Nombre] . '</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">
+                                                        <span class="fas"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <select name="sala" class="form-control">
+                                                    <option disabled selected>Sala</option>
+                                                    <?php
+                                                    $sql = "SELECT * FROM Clinica_sala";
+                                                    $resultado = $conn->prepare($sql);
+                                                    $resultado->execute(array(""));
+                                                    while ($sala = $resultado->fetch(pdo::FETCH_ASSOC)) {
+                                                        echo '<option value="' . $sala[CodClinicaSala] . '">' . $sala[Nombre] . '</option>';
                                                     }
                                                     ?>
                                                 </select>

@@ -112,17 +112,14 @@
 			<hr />
 			
 			<?php
-                        if (isset($_POST['add'])) {
-
-                            $nombre = mysqli_real_escape_string($con, (strip_tags($_POST["nombre"], ENT_QUOTES))); //Escanpando caractere
+                        if (isset($_POST['add'])) {              
                             $Nom_sala = mysqli_real_escape_string($con, (strip_tags($_POST["Nom_sala"], ENT_QUOTES))); //Escanpando caracteres
                             $especialidad = mysqli_real_escape_string($con, (strip_tags($_POST["especialidad"], ENT_QUOTES))); //Escanpando caracteres
 
 
-                            $insert = mysqli_query($con, "INSERT INTO clinica_sala (Nombre , CodEspecialidad, CodMedico )
-															VALUES('$Nom_sala','$especialidad','$nombre')") or die(mysqli_error());
+                            $insert = mysqli_query($con, "INSERT INTO clinica_sala (Nombre , CodEspecialidad)VALUES('$Nom_sala','$especialidad')") or die(mysqli_error());
                             if ($insert) {
-                                echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Bien hecho! Los datos han sido guardados con éxito.</div>';
+                                echo '<script type="text/javascript">alert("Sala Ingresada Correctamente");window.location.href="salas.php";</script>';
                             } else {
                                 echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudo guardar los datos !</div>';
                             }
@@ -130,23 +127,6 @@
                         ?>
 
                 <form class="form-horizontal" action="" method="post">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Nombre del Medico</label>
-                        <div class="col-sm-3">
-            <select name="nombre" class="form-control">
-                <option value=""> ----- </option>
-                <?php
-                $_SESSION[medico]= "";
-                $sql = "SELECT * FROM persona p,empleados e,medico m WHERE P.CodPersona=E.CodPersona AND E.CodEmpleado=m.CodEmpleado";
-                $resultado = $conn->prepare($sql);
-                $resultado->execute(array());
-                while ($empleado = $resultado->fetch(pdo::FETCH_ASSOC)) {
-                    echo '<option value="' .$_SESSION[medico]=$empleado[CodMedico]. '">' . $empleado[Nombres] . ' ' . $empleado[Apellidos] . '</option>';                   
-                }
-                ?>
-            </select>
-        </div>
-                    </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Nombre Sala</label>
                         <div class="col-sm-3">

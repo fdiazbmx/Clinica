@@ -126,7 +126,7 @@ include("connect_db.php");
 
 				<?php
 					if(isset($_GET['aksi']) == 'delete'){
-						// escaping, additionally removing everything that could be (html/javascript-) code
+						// escaping, additionally removing everything that could be (html/javascript-) code                                                
 						$nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES)));
 						$cek = mysqli_query($con, "SELECT * FROM persona WHERE codpersona='$nik'");
 						
@@ -144,14 +144,7 @@ include("connect_db.php");
 					}
 				?>
                         </br>
-                        </br>
-                        <div class="col-lg-3">
-                            <form action="buscar_empleado.php" method="get" class="form_search" >
-                                <input type="text" name="busqueda" id="busqueda" placeholder="Buscar" >
-                                <input type="submit" value="Buscar" class="btn_search">
-                            </form>
-                        </div>
-
+                        </br>                        
                         <br />
                         <div class="col-lg-12">
                             <div class="table-responsive">
@@ -167,7 +160,8 @@ include("connect_db.php");
                                         <th>Acciones</th>
                                     </tr>
                                     <?php
-                                    $sql = mysqli_query($con, "SELECT * FROM persona where codtipopersona = 3 ORDER BY codpersona ASC");
+                                    $medico= $_SESSION['codmedico'];
+                                    $sql = mysqli_query($con, "SELECT * FROM persona p,cita_medica c WHERE p.codpersona =c.codpersona AND c.CodMedico = $medico and c.codestadocita = 1 ");
 
                                     if (mysqli_num_rows($sql) == 0) {
                                         echo '<tr><td colspan="8">No hay datos.</td></tr>';

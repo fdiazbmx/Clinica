@@ -12,12 +12,13 @@ session_start();
 
 
 	//la variable  $mysqli viene de connect_db que lo traigo con el require("connect_db.php");
-	$sql2=mysqli_query($con,"SELECT * FROM usuario WHERE correo='$username'");
+	$sql2=mysqli_query($con,"SELECT * FROM usuario u,persona p, empleados e, medico m WHERE u.codpersona=p.codpersona and p.codpersona =e.codpersona and e.codempleado = m.codempleado and correo='$username'");
 	if($f2=mysqli_fetch_assoc($sql2)){
 		if($pass==$f2['Contraseña']){
 			$_SESSION['id']=$f2['CodUsuario'];
 			$_SESSION['usuario']=$f2['Correo'];
 			$_SESSION['rol']=$f2['CodPerfil'];
+                        $_SESSION['codmedico']=$f2['CodMedico'];
 
 			echo '<script>alert("BIENVENIDO DOCTOR")</script> ';
 			echo "<script>location.href='panel_doctor.php'</script>";

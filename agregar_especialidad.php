@@ -122,7 +122,7 @@ include("controladores/conexion.php")
                             $insert = mysqli_query($con, "INSERT INTO `especialidades`( `Nombre`, `Salario`) VALUES ('$descripcion','$precio')") or die(mysqli_error());
 				
                             if ($insert) {
-                                echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Bien hecho! Los datos han sido guardados con éxito.</div>';
+                                echo '<script type="text/javascript">alert("Especialidad Ingresada Correctamente");window.location.href="especialidades.php";</script>';
                             } else {
                                 echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudo guardar los datos !</div>';
                             }
@@ -148,7 +148,7 @@ include("controladores/conexion.php")
 				    <label class="col-sm-3 control-label">&nbsp;</label>
 				    <div class="col-sm-6">
 				    <input type="submit" name="add" class="btn btn-sm btn-primary" value="Guardar nueva especialidad">
-                                    <a href="panel_admin.php" class="btn btn-sm btn-danger">Cancelar</a>
+                                    <a href="especialidades.php" class="btn btn-sm btn-danger">Cancelar</a>
 					</div>
 				</div>
 			</form>
