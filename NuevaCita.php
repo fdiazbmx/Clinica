@@ -167,7 +167,7 @@ if (!empty($_POST['add'])) {
     <div class="form-group">
         <label class="col-sm-3 control-label">Fecha de la Cita</label>
         <div class="col-sm-4">
-            <input type="date" id="fecha" name="fecha_cita"class="input-group date form-control" date="" date-date-format="dd/mm/yyyy"  placeholder="dd/mm/yyyy" required>
+            <input type="date" id="fecha" name="fecha_cita"class="input-group date form-control" date="" date-date-format="dd/mm/yyyy"  placeholder="dd/mm/yyyy" min=<?php $hoy=date("Y-m-d"); echo $hoy?> required>
             <span class="fas"></span>
         </div>
     </div>

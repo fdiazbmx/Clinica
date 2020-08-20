@@ -257,7 +257,7 @@
                 ?>
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-phone"></span>
+              <span class="fas fa-mobile"></span>
             </div>
           </div>
         </div>
@@ -265,9 +265,9 @@
           <div class="col-5">
               <button type="submit" name="actualizar" class="btn btn-primary btn-block">Actualizar</button>
           </div>
-          <!-- /.col -->
+         </form> <!-- /.col -->
         </div>
-      </form>
+      
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->

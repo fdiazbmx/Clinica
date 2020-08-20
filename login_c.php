@@ -20,7 +20,7 @@
                 echo $_SESSION['rol'].'<script>alert("BIENVENIDO")</script> ';
             echo "<script>location.href='panel_clientes.php'</script>";
             }else{
-                header("location:../clinica/panel_principal.php");   
+                echo '<script type="text/javascript">alert("Su Correo o Contraseña son Incorrectos");window.location.href="login_clientes.php";</script>';
             }
         } else {
             echo '<script type="text/javascript">alert("Su Correo o Contraseña son Incorrectos");window.location.href="login_clientes.php";</script>';

@@ -183,7 +183,7 @@ include("controladores/conexion.php")
                         while ($row = mysqli_fetch_assoc($sql)) {
                             $codpersona2 = $row['CodPersona'];
                         }
-                        $insert = mysqli_query($con, "INSERT INTO `empleados`(`CodPersona`, `Salario`, `FechaContratacion`,codhorario,`FechaModificacion`) VALUES ($codpersona2,$reg_salario,now(),$reg_jornada,now())") or die(mysqli_error());
+                        $insert = mysqli_query($con, "INSERT INTO `empleados`(`CodPersona`, `Salario`, `FechaContratacion`,codjornada,`FechaModificacion`) VALUES ($codpersona2,$reg_salario,now(),$reg_jornada,now())") or die(mysqli_error());
 
                         $insert1 = mysqli_query($con, "INSERT INTO `medico`(`CodEmpleado`, `CodEspecialidad`,`CodClinicaSala`) VALUES (LAST_INSERT_ID(),'$reg_especialidad',$reg_sala)") or die(mysqli_error());
 

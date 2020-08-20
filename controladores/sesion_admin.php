@@ -3,6 +3,6 @@
       include 'controladores/conexion.php';
       include 'connect_db.php';
       session_start();
-      if($_SESSION["rol"] != 1 && !isset($_SESSION["usuario"])){
+      if($_SESSION["rol"] != 1){
         header("location:../clinica/panel_principal.php");
       }
