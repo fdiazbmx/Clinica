@@ -27,6 +27,15 @@
   <link rel="stylesheet" href="adminlte/plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>  
+  <script type="text/javascrip">
+   $(function(){
+       $("#fecha").datepicker();
+});
+</script>
 </head>
 <body
 <?php
@@ -113,11 +122,11 @@ $codpersona = "";
 if (!empty($_POST['add'])) {
     $id_especialidad = $_POST["id_especialidad"];
     $fecha_cita = $_POST["fecha_cita"];
-    $horainicial = $_POST["horainicial"];
-    $codempleado = $_POST["CodEmpleado"];
+    $horainicial = $_POST["horainicio"];
+    $codempleado = $_POST["CodEmpleado"];  
     $codpersona = $_SESSION["CodPersona"];
 
-    $sql = "INSERT INTO cita_medica (codpersona,Codestadocita,Codmedico,fechahora)VALUES( $codpersona,1,$codempleado, '$fecha_cita')";
+    $sql = "INSERT INTO cita_medica (codpersona,Codestadocita,Codmedico,fecha,codhorario)VALUES( $codpersona,1,$codempleado, '$fecha_cita','$horainicial')";
     $resultado = $conn->prepare($sql);
     $resultado->execute();
     if ($resultado) {
@@ -132,7 +141,7 @@ if (!empty($_POST['add'])) {
     <div class="form-group">
         <label class="col-sm-3 control-label">Especialidad</label>
         <div class="col-sm-3">
-            <select name="id_especialidad" class="form-control">
+            <select id="especialidad"name="id_especialidad" class="form-control">
                 <option value=""> ------ </option>
                 <?php
                 $_SESSION[especialidad] = "";
@@ -140,27 +149,17 @@ if (!empty($_POST['add'])) {
                 $resultado = $conn->prepare($sql);
                 $resultado->execute(array(""));
                 while ($especialidad = $resultado->fetch(pdo::FETCH_ASSOC)) {
-                    echo '<option value="' .$_SESSION[especialidad]=$especialidad[CodEspecialidad]. '">' . $especialidad[Nombre] . '</option>';                                      
+                    echo '<option value="' .$especialidad[CodEspecialidad]. '">' . $especialidad[Nombre] . '</option>';                                      
                 }
                 ?>
             </select>
         </div>
     </div> 
-<form action="" method="post">
+    <div id="doctor"></div>
     <div class="form-group">
         <label class="col-sm-3 control-label">Medico</label>
         <div class="col-sm-3">
-            <select name="CodEmpleado" class="form-control">
-                <option value=""> ----- </option>
-                <?php
-                $sql = "SELECT * FROM persona p,empleados e,medico m WHERE P.CodPersona=E.CodPersona AND E.CodEmpleado=m.CodEmpleado and CodEspecialidad = ?";
-                $resultado = $conn->prepare($sql);
-                $resultado->execute(array("$_SESSION[especialidad]"));
-                while ($empleado = $resultado->fetch(pdo::FETCH_ASSOC)) {
-                    echo '<option value="' . $empleado[CodMedico] . '">' . $empleado[Nombres] . ' ' . $empleado[Apellidos] . '</option>';
-                    
-                }
-                ?>
+            <select id="doctor1" name="CodEmpleado" class="form-control">                         
             </select>
         </div>
     </div> 
@@ -168,17 +167,18 @@ if (!empty($_POST['add'])) {
     <div class="form-group">
         <label class="col-sm-3 control-label">Fecha de la Cita</label>
         <div class="col-sm-4">
-            <input type="text" name="fecha_cita" class="input-group date form-control" date="" data-date-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" required>
+            <input type="date" id="fecha" name="fecha_cita"class="input-group date form-control" date="" date-date-format="dd/mm/yyyy"  placeholder="dd/mm/yyyy" required>
+            <span class="fas"></span>
         </div>
     </div>
-
     <div class="form-group">
         <label class="col-sm-3 control-label">Hora de la cita</label>
         <div class="col-sm-4">
-            <input type='time' name="horainicial" id="horainicial" class="form-control"  />
+            <select id="horainicio" name="horainicio" class="form-control">
+                
+            </select>
         </div>
     </div>
-
     <div class="form-group">
         <label class="col-sm-3 control-label">&nbsp;</label>
         <div class="col-sm-6">
@@ -195,8 +195,10 @@ if (!empty($_POST['add'])) {
 </div>
 </div>
 
+
+
+
 <!-- jQuery -->
-<script src="adminlte/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="adminlte/plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -210,8 +212,6 @@ if (!empty($_POST['add'])) {
 <!-- Sparkline -->
 <script src="adminlte/plugins/sparklines/sparkline.js"></script>
 <!-- JQVMap -->
-<script src="adminlte/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="adminlte/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="adminlte/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
@@ -229,8 +229,27 @@ if (!empty($_POST['add'])) {
 <script src="adminlte/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="adminlte/dist/js/demo.js"></script>
+ <script>
+ $('#especialidad').change(function(){
+     let especialidad = $('#especialidad').val();
+     $.ajax({
+         url:'consulta.php',type:'post',data:{especialidad},success:function(response){$('#doctor1').html(response);             
+         }                                        
+     });     
+ });
+ $('#fecha').change(function(){
+     let fecha = $('#fecha').val();
+     let codmedico =$('#doctor1').val();
+     $.ajax({
+         url:'consultafecha.php',type:'post',data:{fecha,codmedico},success:function(response){$('#horainicio').html(response);             
+         }                                        
+     });     
+ });
+ 
+ </script>
 </body>
 <footer class="page-footer font-small teal pt-4">
 <?php include('../clinica/footer.php');?>
 </footer>
 </html>
+<script type></script>

@@ -15,8 +15,7 @@ if (empty($_POST['mail']) || empty($_POST['pass'])) {
             $_SESSION['rol'] = $f2['CodPerfil'];
             
             if($_SESSION["rol"] == 1){
-                echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>';
-                echo '<script type="text/javascript">Swal.fire("Bienvenido")</script>';
+                echo '<script>alert("BIENVENIDO")</script> ';
             echo "<script>location.href='panel_admin.php'</script>";
             }else{
                 header("location:../clinica/panel_principal.php");   

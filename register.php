@@ -52,8 +52,8 @@ include '../Clinica/controladores/new-registro_clientes.php';
           </div>
         </div>
           <div class="input-group mb-3">
-			<select name="Pais" class="form-control" >
-			    <option disabled selected>País</option>
+			<select name="Pais" class="form-control" required>
+			    <option disabled selected value="">País</option>
                             <option value="1">Honduras</option>
 			    <option value="2">El Salvador</option>
                             <option value="3">Nicaragua</option>
@@ -68,7 +68,7 @@ include '../Clinica/controladores/new-registro_clientes.php';
           </div>
         </div>
         <div class="input-group mb-3">
-         <input type="text" name="fecha_nacimiento" class="input-group date form-control" date="" data-date-format="dd-mm-yyyy" placeholder="Fecha de nacimiento  dd/mm/yyyy" required>
+            <input type="text" name="fecha_nacimiento" class="input-group date form-control" date="" data-date-format="dd-mm-yyyy" placeholder="Fecha de nacimiento  dd/mm/yyyy" required pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas"></span>
@@ -76,8 +76,8 @@ include '../Clinica/controladores/new-registro_clientes.php';
           </div>
         </div>
           <div class="input-group mb-3">
-			<select name="TipoIdentidad" class="form-control" >
-			    <option disabled selected>Tipo de Identificación</option>
+              <select name="TipoIdentidad" class="form-control" required>
+			    <option disabled selected value="">Tipo de Identificación</option>
                             <option value="1">Identidad</option>
 			    <option value="2">Pasaporte</option>
                             <option value="3">Carnet de Residencia</option>
@@ -97,8 +97,8 @@ include '../Clinica/controladores/new-registro_clientes.php';
           </div>
         </div>
           <div class="input-group mb-3">
-             <select name="genero" class="form-control">
-			    <option disabled selected>Genero</option>
+             <select name="genero" class="form-control" required>
+			    <option disabled selected value="">Genero</option>
 			    <option value="'m'">Masculino</option>
                             <option value="'f'">Femenino</option>
 	     </select>
@@ -109,8 +109,8 @@ include '../Clinica/controladores/new-registro_clientes.php';
           </div>
         </div>
           <div class="input-group mb-3">
-             <select name="estado_civil" class="form-control">
-			    <option disabled selected>Estado Civil</option>
+             <select name="estado_civil" class="form-control" required>
+			    <option disabled selected value="">Estado Civil</option>
                             <option value="'Soltero'">Soltero</option>
 			    <option value="'Casado'">Casado</option>
                             <option value="'Unión Libre'">Unión Libre</option>
@@ -123,8 +123,8 @@ include '../Clinica/controladores/new-registro_clientes.php';
           </div>
         </div>
           <div class="input-group mb-3">
-         <select name="tipo_sangre" class="form-control" required>
-			    <option disabled selected>Tipo De Sangre</option>
+         <select name="tipo_sangre" class="form-control"required>
+             <option disabled selected value="">Tipo De Sangre</option>
                             <option value="1">O-</option>
                             <option value="2">O+</option>
 			    <option value="3">A-</option>
@@ -149,7 +149,8 @@ include '../Clinica/controladores/new-registro_clientes.php';
           </div>
         </div>
           <div class="input-group mb-3">
-        <input type="text" name="num_telefono" class="form-control" placeholder="Telefono" required>
+        <input type="text" name="num_telefono" placeholder="Telefono 00000000" class="form-control phone form-control"  phone="" 
+               required pattern="[0-9]{8,8}"  title="Un número de teléfono válido debe de constar con 8 digitos" >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-phone"></span>
@@ -157,7 +158,8 @@ include '../Clinica/controladores/new-registro_clientes.php';
           </div>
         </div>
           <div class="input-group mb-3">
-        <input type="text" name="num_Celular" class="form-control" placeholder="Celular" required>
+        <input type="text" name="num_Celular" placeholder="Celular 00000000" class="form-control mobile form-control" mobile=""
+         required pattern="[0-9]{8,8}"  title="Un número de teléfono válido debe de constar con 8 digitos" >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-mobile"></span>

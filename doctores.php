@@ -34,11 +34,7 @@ include("connect_db.php");
 </head>
 <body 
     <?php
-      include ('controladores/conexion.php');
-      session_start();
-       if(!isset($_SESSION["usuario"])){
-        header("location:../clinica/panel_principal.php");
-      }
+      include ('controladores/sesion_admin.php');
     ?> 
 <div class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -53,7 +49,7 @@ include("connect_db.php");
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <li><a href="../clinica/controladores/cerrar.php"><i class="fa fa-sign" aria-hidden="true"></i>  Cerrar Sesión</a></li>
+        <li><a href="../clinica/controladores/cerrar.php"><i class="fa fa-user" aria-hidden="true"></i>  Cerrar Sesión</a></li>
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -70,7 +66,7 @@ include("connect_db.php");
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
         <?php
-            include 'foto_nombre.php';
+            include 'foto_nombre_admin.php';
         ?>
       </div>
 
@@ -137,17 +133,8 @@ include("connect_db.php");
 				</br>
 				<div class="col-lg-12">
 					<a href="agregar_doctor.php" class="btn btn-primary " style="float: right" ><i class="fa fa-plus" aria-hidden="true"></i> Agregar Doctor</a>
-				</div>
-
-		 
-			    </br>
-				<div class="col-lg-3">
-				    <form action="buscar_empleado.php" method="get" class="form_search" >
-					    <input type="text" name="busqueda" id="busqueda" placeholder="Buscar" >
-					    <input type="submit" value="Buscar" class="btn_search">
-				    </form>
-				</div>
-
+				</div>		 
+			    </br>				
 				<br />
 				<div class="col-lg-12">
 					<div class="table-responsive">
@@ -175,7 +162,7 @@ include("connect_db.php");
 										echo '
 										<tr>
 											<td>'.$no.'</td>
-											<td><a href="profile.php?nik='.$row['CodPersona'].'"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> '.$row['Nombres'].' '.$row['Apellidos'].'</a></td>
+											<td><span class="glyphicon glyphicon-user" aria-hidden="true"></span> '.$row['Nombres'].' '.$row['Apellidos'].'</a></td>
 											<td>'.$row['Nume_Identificacion'].'</td>
 											</td>
 											<td>';
@@ -198,7 +185,7 @@ include("connect_db.php");
 										echo ' 
 											<td>
 
-											<a href="edit.php?nik='.$row['CodPersona'].'" title="Editar datos" class="btn btn-success "><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+											<a href="editar_doctor.php?nik='.$row['CodPersona'].'" title="Editar datos" class="btn btn-success "><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
 											<a href="doctores.php?aksi=delete&nik='.$row['CodPersona'].'" title="Eliminar" onclick="return confirm(\'Esta seguro de borrar los datos '.$row['Nombres'].'?\')" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
 											</td>
 										</tr>

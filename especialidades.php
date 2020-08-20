@@ -34,11 +34,7 @@ include("connect_db.php");
 </head>
 <body 
     <?php
-      include ('controladores/conexion.php');
-      session_start();
-       if(!isset($_SESSION["usuario"])){
-        header("location:../clinica/panel_principal.php");
-      }
+     include ('controladores/sesion_admin.php');    
     ?> 
 <div class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -70,7 +66,7 @@ include("connect_db.php");
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
         <?php
-            include 'foto_nombre.php';
+            include 'foto_nombre_admin.php';
         ?>
       </div>
 
@@ -161,7 +157,7 @@ include("connect_db.php");
 						<tr>
                             <td>' . $no . '</td> 
                             <td>' . $row['Nombre'] . '</td>
-							<td>' . 'L.' . $row['Salario'] . '</td>
+							<td>' . 'L.' . $row['precio'] . '</td>
 							<td>';
                                         echo ' 
 				     <a href="editar_especialidad.php?nik=' . $row['CodEspecialidad'] . '" title="Editar datos" class="btn btn-success"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>

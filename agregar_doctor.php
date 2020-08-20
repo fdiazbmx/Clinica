@@ -34,10 +34,7 @@ include("controladores/conexion.php")
 </head>
 <body 
     <?php
-      session_start();
-       if(!isset($_SESSION["usuario"])){
-        header("location:../clinica/panel_principal.php");
-      }
+      include ('controladores/sesion_admin.php');
     ?> 
 <div class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -69,7 +66,7 @@ include("controladores/conexion.php")
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
         <?php
-            include 'foto_nombre.php';
+            include 'foto_nombre_admin.php';
         ?>
       </div>
 
@@ -113,87 +110,90 @@ include("controladores/conexion.php")
 			<h2>Datos de los Doctores &raquo; Agregar datos</h2>
 			<hr />
 
-			<?php
-                         include("connect_db.php");
-                        if (isset($_POST['add'])) {
-                            $reg_Nombres = $_POST["Nombres"];
-                            $reg_apellidos = $_POST["Apellidos"];
-                            $reg_genero = $_POST["genero"];
-                            $reg_fecha_nacimiento = $_POST["fecha_nacimiento"];
-                            $reg_estado_civil = $_POST["estado_civil"];
-                            $reg_direccion = $_POST["direccion"];
-                            $reg_num_telefono = $_POST["num_telefono"];
-                            $reg_num_Celular = $_POST["num_Celular"];
-                            $reg_Pais = $_POST["Pais"];
-                            $reg_TipoIdentidad = $_POST["TipoIdentidad"];
-                            $reg_num_identidad = $_POST["num_identidad"];
-                            $reg_tipo_sangre = $_POST["tipo_sangre"];
-                            $reg_salario = $_POST["salario"];
-                            $reg_especialidad = $_POST["Especialidad"];                            
-                            if(!empty($_POST["CorreoElectronico"])){                                
-                                                    $sql = "SELECT * FROM usuario";
-                                                    $resultado = $conn->prepare($sql);
-                                                    $resultado->execute(array(""));
-                                                    while ($usuario = $resultado->fetch(pdo::FETCH_ASSOC)) {
-                                                        if($usuario["Correo"]!= $_POST["CorreoElectronico"]){                                                           
-                                                            $reg_email = $_POST["CorreoElectronico"];
-                                                        }else{
-                                                            echo '<script type="text/javascript">alert("Ese Correo ya Existe, Intente con Otro.");window.location.href="agregar_doctor.php";</script>';                                                            
-                                                        }                                                            
-                                                    }                                                    
+                        <?php
+                        if(isset($_POST['add'])){
+                                                    
+                        $reg_Nombres = $_POST["Nombres"];
+                        $reg_apellidos = $_POST["Apellidos"];
+                        $reg_genero = $_POST["genero"];
+                        $reg_fecha_nacimiento = $_POST["fecha_nacimiento"];
+                        $reg_estado_civil = $_POST["estado_civil"];
+                        $reg_direccion = $_POST["direccion"];
+                        $reg_num_telefono = $_POST["num_telefono"];
+                        $reg_num_Celular = $_POST["num_Celular"];
+                        $reg_Pais = $_POST["Pais"];
+                        $reg_TipoIdentidad = $_POST["TipoIdentidad"];
+                        $reg_num_identidad = $_POST["num_identidad"];
+                        $reg_tipo_sangre = $_POST["tipo_sangre"];
+                        $reg_salario = $_POST["salario"];
+                        $reg_especialidad = $_POST["Especialidad"];                        
+                        $reg_password = sha1($_POST["Contraseña"]);
+                        $reg_password2 = sha1($_POST["Contraseña2"]);
+                        $reg_jornada = $_POST["Jornada"];
+
+                        $_fotoPerfil_name = $_FILES['fotoPerfil']['name'];
+                        $_fotoPerfil_type = $_FILES['fotoPerfil']['type'];
+                        $_fotoPerfil_size = $_FILES['fotoPerfil']['size'];
+                        $_fotoPerfil_tem = $_FILES['fotoPerfil']['tmp_name'];
+                        $_fotoPerfil_store = "img/" . $_fotoPerfil_name;
+
+                        move_uploaded_file($_fotoPerfil_tem, $_fotoPerfil_store);
+                                                
+                            if (!empty($_POST["sala"])) {
+                            $sql = "SELECT * FROM Clinica_sala where codclinicasala = $_POST[sala]";
+                            $resultado = $conn->prepare($sql);
+                            $resultado->execute(array(""));
+                            while ($sala = $resultado->fetch(pdo::FETCH_ASSOC)) {
+                                if ($sala["CodEspecialidad"] == $reg_especialidad) {                                    
+                                    $reg_sala = $_POST["sala"];
+                                } else {
+                                    echo '<script type="text/javascript">alert("La Especialidad de la Sala no es la Misma que la de el Doctor");window.location.href="agregar_doctor.php";</script>';
+                                    exit();
+                                }
                             }
-                            $reg_password = $_POST["Contraseña"];
-                            $reg_password2 = $_POST["Contraseña2"];
-                                                        
-                            $_fotoPerfil_name = $_FILES['fotoPerfil']['name'];
-                            $_fotoPerfil_type = $_FILES['fotoPerfil']['type'];
-                            $_fotoPerfil_size = $_FILES['fotoPerfil']['size'];
-                            $_fotoPerfil_tem = $_FILES['fotoPerfil']['tmp_name'];
-                            $_fotoPerfil_store = "img/" . $_fotoPerfil_name;
-
-                            move_uploaded_file($_fotoPerfil_tem, $_fotoPerfil_store);
-                            
-                            if(!empty($_POST["sala"])){                                
-                                                    $sql = "SELECT * FROM Clinica_sala";
-                                                    $resultado = $conn->prepare($sql);
-                                                    $resultado->execute(array(""));
-                                                    while ($sala = $resultado->fetch(pdo::FETCH_ASSOC)) {
-                                                        if($sala["CodEspecialidad"]== $reg_especialidad){                                                            
-                                                            $reg_sala = $_POST["sala"];
-                                                        }else{
-                                                            echo '<script type="text/javascript">alert("La Especialidad de la Sala no es la Misma que la de el Doctor");window.location.href="agregar_doctor.php";</script>';                                                            
-                                                        }                                                            
-                                                    }                                                    
+                        } 
+                        if (!empty($_POST["CorreoElectronico"])) {
+                            $sql = "SELECT * FROM usuario";
+                            $resultado = $conn->prepare($sql);
+                            $resultado->execute(array(""));
+                            while ($usuario = $resultado->fetch(pdo::FETCH_ASSOC)) {
+                                if ($usuario["Correo"] != $_POST["CorreoElectronico"]) {
+                                    $reg_email = $_POST["CorreoElectronico"];
+                                } else {
+                                    echo '<script type="text/javascript">alert("Ese Correo ya Existe, Intente con Otro.");window.location.href="agregar_doctor.php";</script>';
+                                    exit();
+                                }
                             }
-
-                            if ($reg_password == $reg_password2) {
-                                
-                            } else {
-                                echo '<script type="text/javascript">alert("Su Clave de verificación es Distinta");window.location.href="agregar_doctor.php";</script>';
-                            }
-
-                            $insert = mysqli_query($con, "INSERT INTO `persona`(`Nombres`, `Apellidos`, `Genero`, `FechaNacimiento`, `EstadoCivil`,FotoPerfil,`Direccion`,"
-                                    . " `Telefono`, `Celular`, `CodPais`, `CodIdentificacion`, `Nume_Identificacion`, `CodTipoSangre`,"
-                                    . " `CodTipoPersona`, `FechaModicicaion`) VALUES ('$reg_Nombres','$reg_apellidos',$reg_genero,'$reg_fecha_nacimiento',$reg_estado_civil,'$_fotoPerfil_name','$reg_direccion','$reg_num_telefono','$reg_num_Celular',$reg_Pais,'$reg_TipoIdentidad','$reg_num_identidad',$reg_tipo_sangre,'2',now())") or die(mysqli_error());
-                            
-                            $insert = mysqli_query($con,"INSERT INTO `usuario`(`Correo`, `Contraseña`, `CodPersona`, `CodPerfil`, `FechaCreacion`) VALUES ('$reg_email','$reg_password',LAST_INSERT_ID(),2,now())") or die(mysqli_error());
-                            
-                            $codpersona2 = "";
-                            $sql = mysqli_query($con, "SELECT * FROM usuario where correo = '$reg_email'");
-
-					while($row = mysqli_fetch_assoc($sql)){
-                                        $codpersona2= $row['CodPersona'];
-                                        }                                                                                      
-                            $insert = mysqli_query($con,"INSERT INTO `empleados`(`CodPersona`, `Salario`, `FechaContratacion`,`FechaModificacion`) VALUES ($codpersona2,$reg_salario,now(),now())") or die(mysqli_error());
-                            
-                            $insert1 = mysqli_query($con,"INSERT INTO `medico`(`CodEmpleado`, `CodEspecialidad`,`CodClinicaSala`) VALUES (LAST_INSERT_ID(),'$reg_especialidad','$reg_sala')") or die(mysqli_error());
-
-                            if ($insert) {
-                                echo '<script type="text/javascript">alert("Datos Ingresados Correctamente");window.location.href="doctores.php";</script>';
-                            } else {
-                                echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudo guardar los datos !</div>';
-                            }
+                        }     
+                        if ($reg_password != $reg_password2) {
+                            echo '<script type="text/javascript">alert("Su Clave de verificación es Distinta");window.location.href="agregar_doctor.php";</script>';
+                            exit();
                         }
+                            include("connect_db.php");
+                                                                                             
+                        $insert = mysqli_query($con, "INSERT INTO `persona`(`Nombres`, `Apellidos`, `Genero`, `FechaNacimiento`, `EstadoCivil`,FotoPerfil,`Direccion`,"
+                                . " `Telefono`, `Celular`, `CodPais`, `CodIdentificacion`, `Nume_Identificacion`, `CodTipoSangre`,"
+                                . " `CodTipoPersona`, `FechaModicicaion`) VALUES ('$reg_Nombres','$reg_apellidos',$reg_genero, STR_TO_DATE('$reg_fecha_nacimiento','%d/%m/%Y'),$reg_estado_civil,'$_fotoPerfil_name','$reg_direccion','$reg_num_telefono','$reg_num_Celular',$reg_Pais,'$reg_TipoIdentidad','$reg_num_identidad',$reg_tipo_sangre,'2',now())") or die(mysqli_error());
+
+                        $insert = mysqli_query($con, "INSERT INTO `usuario`(`Correo`, `Contraseña`, `CodPersona`, `CodPerfil`, `FechaCreacion`) VALUES ('$reg_email','$reg_password',LAST_INSERT_ID(),2,now())") or die(mysqli_error());
+
+                        $codpersona2 = "";
+                        $sql = mysqli_query($con, "SELECT * FROM usuario where correo = '$reg_email'");
+
+                        while ($row = mysqli_fetch_assoc($sql)) {
+                            $codpersona2 = $row['CodPersona'];
+                        }
+                        $insert = mysqli_query($con, "INSERT INTO `empleados`(`CodPersona`, `Salario`, `FechaContratacion`,codhorario,`FechaModificacion`) VALUES ($codpersona2,$reg_salario,now(),$reg_jornada,now())") or die(mysqli_error());
+
+                        $insert1 = mysqli_query($con, "INSERT INTO `medico`(`CodEmpleado`, `CodEspecialidad`,`CodClinicaSala`) VALUES (LAST_INSERT_ID(),'$reg_especialidad',$reg_sala)") or die(mysqli_error());
+
+                        if ($insert1) {
+                            echo '<script type="text/javascript">alert("Datos Ingresados Correctamente");window.location.href="doctores.php";</script>';
+                        } else {
+                            echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudo guardar los datos !</div>';
+                        }
+                        }
+                        
                         ?>
 
                         <center>
@@ -219,8 +219,8 @@ include("controladores/conexion.php")
                                                 </div>
                                             </div>
                                             <div class="input-group mb-3">
-                                                <select name="Pais" class="form-control" >
-                                                    <option disabled selected>País</option>
+                                                <select name="Pais" class="form-control" required>
+                                                    <option disabled selected value="">País</option>
                                                     <option value="1">Honduras</option>
                                                     <option value="2">El Salvador</option>
                                                     <option value="3">Nicaragua</option>
@@ -235,7 +235,7 @@ include("controladores/conexion.php")
                                                 </div>
                                             </div>
                                             <div class="input-group mb-3">
-                                                <input type="text" name="fecha_nacimiento" class="input-group date form-control" date="" data-date-format="dd-mm-yyyy" placeholder="Fecha de nacimiento  dd/mm/yyyy" required>
+                                                <input type="text" name="fecha_nacimiento" class="input-group date form-control" date="" data-date-format="dd-mm-yyyy" placeholder="Fecha de nacimiento  dd/mm/yyyy" required pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}">
                                                 <div class="input-group-append">
                                                     <div class="input-group-text">
                                                         <span class="fas"></span>
@@ -243,8 +243,8 @@ include("controladores/conexion.php")
                                                 </div>
                                             </div>
                                             <div class="input-group mb-3">
-                                                <select name="TipoIdentidad" class="form-control" >
-                                                    <option disabled selected>Tipo de Identificación</option>
+                                                <select name="TipoIdentidad" class="form-control"required>
+                                                    <option disabled selected value="">Tipo de Identificación</option>
                                                     <option value="1">Identidad</option>
                                                     <option value="2">Pasaporte</option>
                                                     <option value="3">Carnet de Residencia</option>
@@ -264,8 +264,8 @@ include("controladores/conexion.php")
                                                 </div>
                                             </div>
                                             <div class="input-group mb-3">
-                                                <select name="genero" class="form-control">
-                                                    <option disabled selected>Genero</option>
+                                                <select name="genero" class="form-control"required>
+                                                    <option disabled selected value="">Genero</option>
                                                     <option value="'m'">Masculino</option>
                                                     <option value="'f'">Femenino</option>
                                                 </select>
@@ -276,8 +276,8 @@ include("controladores/conexion.php")
                                                 </div>
                                             </div>
                                             <div class="input-group mb-3">
-                                                <select name="estado_civil" class="form-control">
-                                                    <option disabled selected>Estado Civil</option>
+                                                <select name="estado_civil" class="form-control"required>
+                                                    <option disabled selected value="">Estado Civil</option>
                                                     <option value="'Soltero'">Soltero</option>
                                                     <option value="'Casado'">Casado</option>
                                                     <option value="'Unión Libre'">Unión Libre</option>
@@ -290,8 +290,8 @@ include("controladores/conexion.php")
                                                 </div>
                                             </div>
                                             <div class="input-group mb-3">
-                                                <select name="tipo_sangre" class="form-control">
-                                                    <option disabled selected>Tipo De Sangre</option>
+                                                <select name="tipo_sangre" class="form-control" required>
+                                                    <option disabled selected value="">Tipo De Sangre</option>
                                                     <option value="1">O-</option>
                                                     <option value="2">O+</option>
                                                     <option value="3">A-</option>
@@ -308,14 +308,26 @@ include("controladores/conexion.php")
                                                 </div>
                                             </div>
                                             <div class="input-group mb-3">
-                                                <select name="Especialidad" class="form-control">
-                                                    <option disabled selected>Especialidad</option>
+                                                <select name="Jornada" class="form-control"required>
+                                                    <option disabled selected value="">Jornada de Trabajo</option>                                                    
+                                                    <option value="1">Matutino</option>';
+                                                    <option value="2">Vespertino</option>';
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">
+                                                        <span class="fas"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <select name="Especialidad" class="form-control"required>
+                                                    <option disabled selected value="">Especialidad</option>
                                                     <?php
                                                     $sql = "SELECT * FROM especialidades";
                                                     $resultado = $conn->prepare($sql);
                                                     $resultado->execute(array(""));
                                                     while ($especialidad = $resultado->fetch(pdo::FETCH_ASSOC)) {
-                                                        echo '<option value="' . $especialidad[CodEspecialidad] . '">' . $especialidad[Nombre] . '</option>';
+                                                        echo '<option value="' . $especialidad['CodEspecialidad'] . '">' . $especialidad['Nombre'] . '</option>';
                                                     }
                                                     ?>
                                                 </select>
@@ -326,14 +338,14 @@ include("controladores/conexion.php")
                                                 </div>
                                             </div>
                                             <div class="input-group mb-3">
-                                                <select name="sala" class="form-control">
-                                                    <option disabled selected>Sala</option>
+                                                <select name="sala" class="form-control"required>
+                                                    <option disabled selected value="">Sala</option>
                                                     <?php
-                                                    $sql = "SELECT * FROM Clinica_sala";
+                                                    $sql = "SELECT c.CodClinicaSala as codsala,c.nombre as nombrec,e.nombre as nombree FROM Clinica_sala c, especialidades e where c.codespecialidad = e.codespecialidad";
                                                     $resultado = $conn->prepare($sql);
                                                     $resultado->execute(array(""));
                                                     while ($sala = $resultado->fetch(pdo::FETCH_ASSOC)) {
-                                                        echo '<option value="' . $sala[CodClinicaSala] . '">' . $sala[Nombre] . '</option>';
+                                                        echo '<option value="' .$sala['codsala']. '">' . $sala['nombrec'].' '.'de'.' '. $sala['nombree']. '</option>';
                                                     }
                                                     ?>
                                                 </select>
@@ -360,7 +372,7 @@ include("controladores/conexion.php")
                                                 </div>
                                             </div>
                                             <div class="input-group mb-3">
-                                                <input type="text" name="num_telefono" class="form-control" placeholder="Telefono" required>
+                                                <input type="text" name="num_telefono" class="form-control" placeholder="Telefono" required pattern="[0-9]{8,8}"  title="Un número de teléfono válido debe de constar con 8 digitos">
                                                 <div class="input-group-append">
                                                     <div class="input-group-text">
                                                         <span class="fas fa-phone"></span>
@@ -368,7 +380,7 @@ include("controladores/conexion.php")
                                                 </div>
                                             </div>
                                             <div class="input-group mb-3">
-                                                <input type="text" name="num_Celular" class="form-control" placeholder="Celular" required>
+                                                <input type="text" name="num_Celular" class="form-control" placeholder="Celular" required pattern="[0-9]{8,8}"  title="Un número de teléfono válido debe de constar con 8 digitos">
                                                 <div class="input-group-append">
                                                     <div class="input-group-text">
                                                         <span class="fas fa-mobile"></span>
@@ -427,37 +439,18 @@ include("controladores/conexion.php")
     </div>
 </div>
 
-<!-- jQuery -->
-<script src="adminlte/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="adminlte/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script src="../Adminlte/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="adminlte/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="adminlte/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="adminlte/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="adminlte/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="adminlte/plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="adminlte/plugins/moment/moment.min.js"></script>
-<script src="adminlte/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="adminlte/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="../Adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../Adminlte/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- AdminLTE App -->
-<script src="adminlte/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="adminlte/dist/js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="adminlte/dist/js/demo.js"></script>
+<script src="../Adminlte/dist/js/adminlte.min.js"></script>
+<script src="../Adminlte/dist/js/demo.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+  bsCustomFileInput.init();
+});
+</script>
 </body>
 <footer class="page-footer font-small teal pt-4">
 <?php include('../clinica/footer.php');?>

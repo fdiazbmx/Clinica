@@ -6,7 +6,7 @@
 } else {
     require("connect_db.php");
     $username = $_POST['txtcorreo'];
-    $pass = $_POST['txtpassword'];
+    $pass = sha1($_POST['txtpassword']);
     $sql2 = mysqli_query($con, "SELECT * FROM usuario u, persona p WHERE u.codpersona=p.codpersona and correo='$username'");
     if ($f2 = mysqli_fetch_assoc($sql2)) {
         if ($pass == $f2['Contraseña']) {
@@ -17,7 +17,7 @@
             $nombre = $f2['Nombres'];
             
             if($_SESSION["rol"] == 3){
-                echo '<script>alert("BIENVENIDO $newObj = clone $nombre;")</script> ';
+                echo $_SESSION['rol'].'<script>alert("BIENVENIDO")</script> ';
             echo "<script>location.href='panel_clientes.php'</script>";
             }else{
                 header("location:../clinica/panel_principal.php");   

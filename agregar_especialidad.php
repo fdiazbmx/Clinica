@@ -34,11 +34,7 @@ include("controladores/conexion.php")
 </head>
 <body 
     <?php
-      session_start();
-       include("connect_db.php");
-       if(!isset($_SESSION["usuario"])){
-        header("location:../clinica/panel_principal.php");
-      }
+      include ('controladores/sesion_admin.php');
     ?> 
 <div class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -70,7 +66,7 @@ include("controladores/conexion.php")
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
         <?php
-            include 'foto_nombre.php';
+            include 'foto_nombre_admin.php';
         ?>
       </div>
 
@@ -119,7 +115,7 @@ include("controladores/conexion.php")
                             $descripcion = $_POST["descripcion"];
                             $precio = $_POST["precio"];
 
-                            $insert = mysqli_query($con, "INSERT INTO `especialidades`( `Nombre`, `Salario`) VALUES ('$descripcion','$precio')") or die(mysqli_error());
+                            $insert = mysqli_query($con, "INSERT INTO `especialidades`( `Nombre`, `precio`) VALUES ('$descripcion','$precio')") or die(mysqli_error());
 				
                             if ($insert) {
                                 echo '<script type="text/javascript">alert("Especialidad Ingresada Correctamente");window.location.href="especialidades.php";</script>';

@@ -113,7 +113,7 @@ include("controladores/conexion.php")
 			<?php
 			// escaping, additionally removing everything that could be (html/javascript-) code
 			$nik = $_GET["nik"];
-			$sql = mysqli_query($con, "SELECT * FROM especialidades WHERE codespecialidad='$nik'");
+			$sql = mysqli_query($con, "SELECT c.codespecialidad,c.nombre as nombrec,e.nombre as nombree FROM Clinica_sala c, especialidades e WHERE c.codespecialidad =e.codespecialidad and codclinicasala='$nik'");
 			if(mysqli_num_rows($sql) == 0){
 				header("Location: panel_admin.php");
 			}else{
@@ -122,11 +122,11 @@ include("controladores/conexion.php")
 			if(isset($_POST['save'])){
 				
 				$descripcion = $_POST["descripcion"];
-				$precio= $_POST["precio"];
+				$precio= $row['codespecialidad'];
 				
-				$update = mysqli_query($con, "UPDATE especialidades SET Nombre='$descripcion', precio='$precio' WHERE codespecialidad='$nik'") or die(mysqli_error());
+				$update = mysqli_query($con, "UPDATE Clinica_sala SET Nombre='$descripcion', codEspecialidad='$precio' WHERE codclinicasala='$nik'") or die(mysqli_error());
 				if($update){					
-                                    echo '<script type="text/javascript">alert("Especialidad Editada Correctamente");window.location.href="especialidades.php";</script>';
+                                    echo '<script type="text/javascript">alert("Sala Editada Correctamente");window.location.href="salas.php";</script>';
 				}else{
 					echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error, no se pudo guardar los datos.</div>';
 				}
@@ -138,15 +138,15 @@ include("controladores/conexion.php")
    </div>
            <form class="form-horizontal" action="" method="post">
                 <div class="form-group">
-					<label class="col-sm-3 control-label">Nueva Especialidad</label>
+					<label class="col-sm-3 control-label">Nombre de la Sala</label>
 					<div class="col-sm-4">
-						<input type="text" name="descripcion" value="<?php echo $row ['Nombre']; ?>" class="form-control" placeholder="Nueva Especialidad" required>
+						<input type="text" name="descripcion" value="<?php echo $row ['nombrec']; ?>" class="form-control" placeholder="Nueva Especialidad" required>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Precio</label>
+					<label class="col-sm-3 control-label">Especialidad</label>
 					<div class="col-sm-4">
-					<input type="text" name="precio" value="<?php echo $row ['precio']; ?>" class="form-control" placeholder="Precio" required>
+					<input type="text" name="precio" value="" class="form-control" placeholder="<?php echo $row ['nombree']; ?>">
 					</div>
                     </select> 
 				    </div>
@@ -154,7 +154,7 @@ include("controladores/conexion.php")
 					<label class="col-sm-3 control-label">&nbsp;</label>
 					<div class="col-sm-6">
 					<input type="submit" name="save" class="btn btn-sm btn-primary" value="Guardar Cambios">
-                                        <a href="especialidades.php" class="btn btn-sm btn-danger">Cancelar</a>
+                                        <a href="salas.php" class="btn btn-sm btn-danger">Cancelar</a>
 					</div>
 				</div>
 			</form>

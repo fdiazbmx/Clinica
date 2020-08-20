@@ -69,19 +69,9 @@ include("connect_db.php");
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
-        <div class="image">
-            <?php
-                     $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
-                     $resultado=$conn->prepare($sql);
-                     $resultado->execute(array($_SESSION["usuario"]));
-                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
-                       echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
-        </div>
-        <div class='info'> ";
-                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'<br/>'.$nombre['Apellidos'].'</a>';
-                      }
-                ?>
-        </div>
+        <?php
+            include 'foto_nombre_doc.php';
+        ?>
       </div>
 
       <!-- Sidebar Menu -->
@@ -103,12 +93,13 @@ include("connect_db.php");
                 </a>
               </li>
               <li class="nav-item">
-                <a href="salasdoctor.php" class="nav-link">
+                <a href="calendario.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Salas</p>
+                  <p>Calendario</p>
                 </a>
               </li>
-              </ul>
+              </div>
+              
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -123,27 +114,7 @@ include("connect_db.php");
 		<div class="content">
 			<h2>Citas Pendientes</h2>
 			<hr />
-
-				<?php
-					if(isset($_GET['aksi']) == 'delete'){
-						// escaping, additionally removing everything that could be (html/javascript-) code                                                
-						$nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES)));
-						$cek = mysqli_query($con, "SELECT * FROM persona WHERE codpersona='$nik'");
-						
-						if(mysqli_num_rows($cek) == 0){
-							echo '<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se encontraron datos.</div>';
-						}else{
-							$delete = mysqli_query($con, "DELETE FROM persona WHERE codpersona='$nik'");
-                                                        $delete = mysqli_query($con, "DELETE FROM usuario WHERE codpersona='$nik'");
-							if($delete){
-								echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Datos eliminado correctamente.</div>';
-							}else{
-								echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, no se pudo eliminar los datos.</div>';
-							}
-						}
-					}
-				?>
-                        </br>
+      </br>
                         </br>                        
                         <br />
                         <div class="col-lg-12">
@@ -162,6 +133,7 @@ include("connect_db.php");
                                     <?php
                                     $medico= $_SESSION['codmedico'];
                                     $sql = mysqli_query($con, "SELECT * FROM persona p,cita_medica c WHERE p.codpersona =c.codpersona AND c.CodMedico = $medico and c.codestadocita = 1 ");
+                                   
 
                                     if (mysqli_num_rows($sql) == 0) {
                                         echo '<tr><td colspan="8">No hay datos.</td></tr>';
@@ -178,10 +150,9 @@ include("connect_db.php");
                       <td>' . $row['Celular'] . '</td>
                       <td>' . $row['Direccion'] . '</td>
                       <td>' . $row['FechaModicicaion'] . '</td>                      
-                       <td>Pendiente </td>
-                      <td>
-                            <a href="edit.php?nik=' . $row['CodPersona'] . '"class="btn btn-primary btn-block">Atender</a>										
-                            </td>
+                     <td> <span class="label bg-green">Pendiente</span> </td>
+              <td><a href="atender_cita.php?nik='.$row['CodCita'].'" class="btn btn-primary">Atender</a></td>
+              
                     </tr>
                     ';
                                             $no++;

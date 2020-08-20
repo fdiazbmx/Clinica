@@ -1,6 +1,3 @@
-<?php
-include("controladores/conexion.php")
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +31,11 @@ include("controladores/conexion.php")
 </head>
 <body 
     <?php
-      include ('controladores/sesion_admin.php');
+      include ('controladores/conexion.php');
+      session_start();
+       if(!isset($_SESSION["usuario"])){
+        header("location:../clinica/panel_principal.php");
+      }
     ?> 
 <div class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -49,7 +50,7 @@ include("controladores/conexion.php")
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <li><a href="../clinica/controladores/cerrar.php"><i class="fa fa-sign" aria-hidden="true"></i>  Cerrar Sesión</a></li>
+        <li><a href="../clinica/controladores/cerrar.php"><i class="fa fa-sign-out" aria-hidden="true"></i>  Cerrar Sesión</a></li>
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -65,9 +66,19 @@ include("controladores/conexion.php")
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
-        <?php
-            include 'foto_nombre_admin.php';
-        ?>
+        <div class="image">
+            <?php
+                     $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
+                     $resultado=$conn->prepare($sql);
+                     $resultado->execute(array($_SESSION["usuario"]));
+                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
+                       echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
+        </div>
+        <div class='info'> ";
+                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'<br/>'.$nombre['Apellidos'].'</a>';
+                      }
+                ?>
+        </div>
       </div>
 
       <!-- Sidebar Menu -->
@@ -75,17 +86,17 @@ include("controladores/conexion.php")
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-header">ADMINISTRADOR</li>
+          <li class="nav-header">DOCTOR</li>
               <li class="nav-item">
-                <a href="doctores.php" class="nav-link">
+                  <a href="citaspendientes.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Doctores</p>
+                  <p>Citas Pendientes</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="especialidades.php" class="nav-link">
+                <a href="citasatendidas.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Especialidades</p>
+                  <p>Citas Atentidas</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -105,59 +116,7 @@ include("controladores/conexion.php")
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="container">
-		<div class="content">
-			<h2>Especialidad &raquo; Editar Datos</h2>
-			<hr />
-			
-			<?php
-			// escaping, additionally removing everything that could be (html/javascript-) code
-			$nik = $_GET["nik"];
-			$sql = mysqli_query($con, "SELECT * FROM especialidades WHERE codespecialidad='$nik'");
-			if(mysqli_num_rows($sql) == 0){
-				header("Location: panel_admin.php");
-			}else{
-				$row = mysqli_fetch_assoc($sql);
-			}
-			if(isset($_POST['save'])){
-				
-				$descripcion = $_POST["descripcion"];
-				$precio= $_POST["precio"];
-				
-				$update = mysqli_query($con, "UPDATE especialidades SET Nombre='$descripcion', precio='$precio' WHERE codespecialidad='$nik'") or die(mysqli_error());
-				if($update){					
-                                    echo '<script type="text/javascript">alert("Especialidad Editada Correctamente");window.location.href="especialidades.php";</script>';
-				}else{
-					echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error, no se pudo guardar los datos.</div>';
-				}
-			}
-						
-			?>
-            		
-   </div>
-   </div>
-           <form class="form-horizontal" action="" method="post">
-                <div class="form-group">
-					<label class="col-sm-3 control-label">Nueva Especialidad</label>
-					<div class="col-sm-4">
-						<input type="text" name="descripcion" value="<?php echo $row ['Nombre']; ?>" class="form-control" placeholder="Nueva Especialidad" required>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-3 control-label">Precio</label>
-					<div class="col-sm-4">
-					<input type="text" name="precio" value="<?php echo $row ['precio']; ?>" class="form-control" placeholder="Precio" required>
-					</div>
-                    </select> 
-				    </div>
-			   <div class="form-group">
-					<label class="col-sm-3 control-label">&nbsp;</label>
-					<div class="col-sm-6">
-					<input type="submit" name="save" class="btn btn-sm btn-primary" value="Guardar Cambios">
-                                        <a href="especialidades.php" class="btn btn-sm btn-danger">Cancelar</a>
-					</div>
-				</div>
-			</form>
+          <?php include '../Clinica/imagencentral.php';?>  
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -173,10 +132,6 @@ include("controladores/conexion.php")
 <!-- ChartJS -->
 <script src="adminlte/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
-<script src="adminlte/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="adminlte/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="adminlte/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="adminlte/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->

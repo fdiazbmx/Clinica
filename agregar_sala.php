@@ -31,12 +31,7 @@
 </head>
 <body 
     <?php
-      include ('controladores/conexion.php');
-      include("connect_db.php");
-      session_start();
-       if(!isset($_SESSION["usuario"])){
-        header("location:../clinica/panel_principal.php");
-      }
+      include ('controladores/sesion_admin.php');
     ?> 
 <div class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -68,7 +63,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
         <?php
-            include 'foto_nombre.php';
+            include 'foto_nombre_admin.php';
         ?>
       </div>
 
@@ -136,14 +131,14 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Especialidad</label>
                         <div class="col-sm-3">
-                            <select name="especialidad" class="form-control">
+                            <select name="especialidad" class="form-control" required>
                                 <option value=""> ------ </option>
                                 <?php
                                 $sql = "SELECT * FROM especialidades";
                                 $resultado = $conn->prepare($sql);
                                 $resultado->execute(array());
                                 while ($especialidad = $resultado->fetch(pdo::FETCH_ASSOC)) {
-                                    echo '<option value="' . $especialidad[CodEspecialidad] . '">' . $especialidad[Nombre] . '</option>';
+                                    echo '<option value="' . $especialidad['CodEspecialidad'] . '">' . $especialidad['Nombre'] . '</option>';
                                 }
                                 ?>
                             </select>

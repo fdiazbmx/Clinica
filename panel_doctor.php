@@ -58,7 +58,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo --> 
-    <a href="panel_admin.php" class="brand-link">
+    <a href="panel_doctor.php" class="brand-link">
       <span class="brand-text font-weight-light"><i class="fa fa-ambulance" aria-hidden="true"></i>  Amigos en Apuros</span>
     </a>
 
@@ -66,19 +66,9 @@
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
-        <div class="image">
-            <?php
-                     $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
-                     $resultado=$conn->prepare($sql);
-                     $resultado->execute(array($_SESSION["usuario"]));
-                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
-                       echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
-        </div>
-        <div class='info'> ";
-                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'<br/>'.$nombre['Apellidos'].'</a>';
-                      }
-                ?>
-        </div>
+        <?php
+            include 'foto_nombre_doc.php';
+        ?>
       </div>
 
       <!-- Sidebar Menu -->
@@ -100,12 +90,13 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="salas.php" class="nav-link">
+                <a href="calendario.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Salas</p>
+                  <p>Calendario</p>
                 </a>
               </li>
-              </ul>
+              </div>
+              
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->

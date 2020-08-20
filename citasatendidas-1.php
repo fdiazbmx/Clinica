@@ -30,7 +30,7 @@ include("connect_db.php");
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   
-  
+	
 </head>
 <body 
     <?php
@@ -69,9 +69,19 @@ include("connect_db.php");
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
-        <?php
-            include 'foto_nombre_doc.php';
-        ?>
+        <div class="image">
+            <?php
+                     $sql="SELECT * FROM persona p, usuario u where u.codpersona = p.Codpersona and u.correo = ?";
+                     $resultado=$conn->prepare($sql);
+                     $resultado->execute(array($_SESSION["usuario"]));
+                     while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){
+                       echo" <img src='img/$nombre[FotoPerfil]' class='img-circle elevation-2' alt='User Image'>
+        </div>
+        <div class='info'> ";
+                     echo '<a href="informacioncliente.php" class="d-block">'.$nombre['Nombres'].'<br/>'.$nombre['Apellidos'].'</a>';
+                      }
+                ?>
+        </div>
       </div>
 
       <!-- Sidebar Menu -->
@@ -92,14 +102,13 @@ include("connect_db.php");
                   <p>Citas Atendidas</p>
                 </a>
               </li>
-               <li class="nav-item">
-                <a href="calendario.php" class="nav-link">
+              <li class="nav-item">
+                <a href="salasdoctor.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Calendario</p>
+                  <p>Salas</p>
                 </a>
               </li>
-              </div>
-              
+              </ul>
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -111,79 +120,85 @@ include("connect_db.php");
     <div class="content-header">
       <div class="container-fluid">
           <div class="container">
-    <div class="content">
-      <h2>Citas Atendidas</h2>
-      <hr />
+		<div class="content">
+			<h2>Citas Atendidas</h2>
+			<hr />
 
-        <?php
-          if(isset($_GET['aksi']) == 'delete'){
-            // escaping, additionally removing everything that could be (html/javascript-) code                                                
-            $nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES)));
-            $cek = mysqli_query($con, "SELECT * FROM persona WHERE codpersona='$nik'");
-            
-            if(mysqli_num_rows($cek) == 0){
-              echo '<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se encontraron datos.</div>';
-            }else{
-              $delete = mysqli_query($con, "DELETE FROM persona WHERE codpersona='$nik'");
+				<?php
+					if(isset($_GET['aksi']) == 'delete'){
+						// escaping, additionally removing everything that could be (html/javascript-) code
+						$nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES)));
+						$cek = mysqli_query($con, "SELECT * FROM persona WHERE codpersona='$nik'");
+						
+						if(mysqli_num_rows($cek) == 0){
+							echo '<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se encontraron datos.</div>';
+						}else{
+							$delete = mysqli_query($con, "DELETE FROM persona WHERE codpersona='$nik'");
                                                         $delete = mysqli_query($con, "DELETE FROM usuario WHERE codpersona='$nik'");
-              if($delete){
-                echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Datos eliminado correctamente.</div>';
-              }else{
-                echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, no se pudo eliminar los datos.</div>';
-              }
-            }
-          }
-        ?>
-                        </br>
-                        </br>                        
-                        <br />
-                        <div class="col-lg-12">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nombre</th>
-                                        <th>Identidad</th>
-                                        <th>Telefono</th>
-                                        <th>Direccion</th>
-                                                                               
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                    <?php
-                                    $medico= $_SESSION['codmedico'];
-                                    $sql = mysqli_query($con, "SELECT * FROM persona p,cita_medica c WHERE p.codpersona =c.codpersona AND c.CodMedico = $medico and c.codestadocita = 2 ");
+							if($delete){
+								echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Datos eliminado correctamente.</div>';
+							}else{
+								echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, no se pudo eliminar los datos.</div>';
+							}
+						}
+					}
+				?>
+				</br>				
+			    </br>
+				<div class="col-lg-3">
+				    <form action="buscar_empleado.php" method="get" class="form_search" >
+					    <input type="text" name="busqueda" id="busqueda" placeholder="Buscar" >
+					    <input type="submit" value="Buscar" class="btn_search">
+				    </form>
+				</div>
 
-                                    if (mysqli_num_rows($sql) == 0) {
-                                        echo '<tr><td colspan="8">No hay datos.</td></tr>';
-                                    } else {
-                                        $no = 1;
-                                        while ($row = mysqli_fetch_assoc($sql)) {
-                                            echo '
+				<br />
+				<div class="col-lg-12">
+					<div class="table-responsive">
+						<table class="table table-striped table-hover">
+							<tr>
+								<th>Id</th>
+								<th>Nombre</th>
+								<th>Identidad</th>
+								<th>Telefono</th>
+								<th>Direccion</th>
+								<th>Fecha de Ingreso</th>
+								<th>Padecimientos</th>
+								<th>Estado</th>
+								
+							</tr>
+							<?php
+            
+                $sql = mysqli_query($con, "SELECT * FROM cita_medica");
+            
+                if(mysqli_num_rows($sql) == 0){
+                  echo '<tr><td colspan="8">No hay datos.</td></tr>';
+                }else{
+                  $no = 1;
+                  while($row = mysqli_fetch_assoc($sql)){
+                    echo '
                     <tr>
-                      <td>' . $no . '</td>
-                      <td><a href="profile.php?nik=' . $row['CodPersona'] . '"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> ' . $row['Nombres'] . ' ' . $row['Apellidos'] . '</a></td>
-                      <td>' . $row['Nume_Identificacion'] . '</td>
+                      <td>'.$no.'</td>
+                      <td><a href="profile.php?nik='.$row['CodPersona'].'"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> '.$row['Nombres'].' '.$row['Apellidos'].'</a></td>
+                      <td>'.$row['Nume_Identificacion'].'</td>
                       
                       
-                      <td>' . $row['Celular'] . '</td>
-                      <td>' . $row['Direccion'] . '</td>
-                                   
-                       <td><span class="label bg-red">Atendida</span> </td>
-                      <td>
-                            <a href="reporte_cita.php"' . $row['CodPersona'] . '"class="btn btn-primary btn-block">Reporte</a>                    
-                            </td>
-                    </tr>
-                    ';
-                                            $no++;
-                                        }
-                                    }
-                                    ?>
-            </table>
-          </div>
-        </div>
-    </div>
-  </div>
+                      <td>'.$row['Celular'].'</td>
+                      <td>'.$row['Direccion'].'</td>
+                      <td>'.$row['FechaModicicaion'].'</td>
+                      <td> Tos Seca </td>
+                       <td>Pendiente </td>
+                      							</tr>
+										';
+										$no++;
+									}
+								}
+							?>
+						</table>
+					</div>
+				</div>
+		</div>
+	</div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>

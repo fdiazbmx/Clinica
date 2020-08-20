@@ -1,5 +1,5 @@
 <?php
-include("connect_db.php");
+include("controladores/conexion.php")
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,11 +30,10 @@ include("connect_db.php");
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   
-  
+    
 </head>
 <body 
     <?php
-      include ('controladores/conexion.php');
       session_start();
        if(!isset($_SESSION["usuario"])){
         header("location:../clinica/panel_principal.php");
@@ -70,7 +69,7 @@ include("connect_db.php");
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
         <?php
-            include 'foto_nombre_doc.php';
+            include 'foto_nombre.php';
         ?>
       </div>
 
@@ -92,14 +91,15 @@ include("connect_db.php");
                   <p>Citas Atendidas</p>
                 </a>
               </li>
-               <li class="nav-item">
+              <li class="nav-item">
                 <a href="calendario.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Calendario</p>
                 </a>
               </li>
-              </div>
-              
+            </div>
+
+               
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -107,86 +107,77 @@ include("connect_db.php");
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-          <div class="container">
-    <div class="content">
-      <h2>Citas Atendidas</h2>
-      <hr />
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+          <div class="container-fluid">
+              <div class="container">
+                  <div class="content">
+                      <h2> Atender Cita</h2>
+                      <hr />
 
-        <?php
-          if(isset($_GET['aksi']) == 'delete'){
-            // escaping, additionally removing everything that could be (html/javascript-) code                                                
-            $nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES)));
-            $cek = mysqli_query($con, "SELECT * FROM persona WHERE codpersona='$nik'");
-            
-            if(mysqli_num_rows($cek) == 0){
-              echo '<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se encontraron datos.</div>';
-            }else{
-              $delete = mysqli_query($con, "DELETE FROM persona WHERE codpersona='$nik'");
-                                                        $delete = mysqli_query($con, "DELETE FROM usuario WHERE codpersona='$nik'");
-              if($delete){
-                echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Datos eliminado correctamente.</div>';
-              }else{
-                echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, no se pudo eliminar los datos.</div>';
-              }
-            }
-          }
-        ?>
-                        </br>
-                        </br>                        
-                        <br />
-                        <div class="col-lg-12">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nombre</th>
-                                        <th>Identidad</th>
-                                        <th>Telefono</th>
-                                        <th>Direccion</th>
-                                                                               
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                    <?php
-                                    $medico= $_SESSION['codmedico'];
-                                    $sql = mysqli_query($con, "SELECT * FROM persona p,cita_medica c WHERE p.codpersona =c.codpersona AND c.CodMedico = $medico and c.codestadocita = 2 ");
+                      <center>
+                          <?php
+                          include("connect_db.php");
+                          if (isset($_POST['add'])) {
+                              $nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES)));
+                              $reg_diagnostico = $_POST["Diagnostico"];
+                              $reg_padecimientos = $_POST["Padecimientos"];
+                              $reg_receta = $_POST["Receta"];
+                              
+                              $insert = mysqli_query($con, "INSERT INTO `historial_medico`(`CodCita`, `Diagnostico`, `Padecimientos`, `Receta`, `FechaHora`) VALUES ('$nik' , '$reg_diagnostico','$reg_padecimientos','$reg_receta' ,now())") or die(mysqli_error());
 
-                                    if (mysqli_num_rows($sql) == 0) {
-                                        echo '<tr><td colspan="8">No hay datos.</td></tr>';
-                                    } else {
-                                        $no = 1;
-                                        while ($row = mysqli_fetch_assoc($sql)) {
-                                            echo '
-                    <tr>
-                      <td>' . $no . '</td>
-                      <td><a href="profile.php?nik=' . $row['CodPersona'] . '"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> ' . $row['Nombres'] . ' ' . $row['Apellidos'] . '</a></td>
-                      <td>' . $row['Nume_Identificacion'] . '</td>
-                      
-                      
-                      <td>' . $row['Celular'] . '</td>
-                      <td>' . $row['Direccion'] . '</td>
-                                   
-                       <td><span class="label bg-red">Atendida</span> </td>
-                      <td>
-                            <a href="reporte_cita.php"' . $row['CodPersona'] . '"class="btn btn-primary btn-block">Reporte</a>                    
-                            </td>
-                    </tr>
-                    ';
-                                            $no++;
-                                        }
-                                    }
-                                    ?>
-            </table>
-          </div>
-        </div>
-    </div>
-  </div>
-        </div><!-- /.row -->
+                              $update = mysqli_query($con, "UPDATE cita_medica SET codestadocita=2 WHERE codcita='$nik'") or die(mysqli_error());
+
+                              if ($update) {
+                                  echo '<script type="text/javascript">alert("Datos Actualizados Correctamente");window.location.href="citaspendientes.php";</script>';
+                              } else {
+                                  echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudo guardar los datos !</div>';
+                              }
+                          }
+                          ?>                           
+                          <div class="register-box">
+                              <div class="card">
+                                  <div class="card-body register-card-body">
+                                      <p class="login-box-msg">Atender Cita</p>
+                                      <form action="" method="post" enctype="multipart/form-data">
+                                          <div class="input-group mb-3" btsExpInput>
+                                              <textarea name="Diagnostico" class="form-control" placeholder="Diagnostico" required></textarea>
+                                              <div class="input-group-append">
+                                                  <div class="input-group-text">
+                                                      <span class="fas"></span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="input-group mb-3" btsExpInput>
+                                              <textarea name="Padecimientos" class="form-control" placeholder="Padecimientos" required></textarea>
+                                              <div class="input-group-append">
+                                                  <div class="input-group-text">
+                                                      <span class="fas"></span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="input-group mb-3" btsExpInput>
+                                              <textarea name="Receta" class="form-control" placeholder="Receta" required></textarea>
+                                              <div class="input-group-append">
+                                                  <div class="input-group-text">
+                                                      <span class="fas"></span>
+                                                  </div>
+                                              </div>
+                                          </div>                                                                                     
+                                          <div class="col-5">
+                                              <button type="submit" name="add" class="btn btn-primary btn-block" value="upload">Atender Paciente</button>
+                                          </div>
+                                      </form>
+                                  </div>
+                                  <!-- /.form-box -->
+                              </div>
+                          </div>                          
+                      </center>
+                  </div>
+              </div>
+          </div><!-- /.row -->
       </div><!-- /.container-fluid -->
-    </div>
+  </div>
 </div>
 
 <!-- jQuery -->

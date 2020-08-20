@@ -30,7 +30,7 @@ include("connect_db.php");
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   
-  
+	
 </head>
 <body 
     <?php
@@ -92,15 +92,16 @@ include("connect_db.php");
                   <p>Citas Atendidas</p>
                 </a>
               </li>
-               <li class="nav-item">
+             
+              <li class="nav-item">
                 <a href="calendario.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Calendario</p>
                 </a>
               </li>
-              </div>
+               </div>
               
-      <!-- /.sidebar-menu -->
+         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
   </aside>
@@ -112,82 +113,103 @@ include("connect_db.php");
       <div class="container-fluid">
           <div class="container">
     <div class="content">
-      <h2>Citas Atendidas</h2>
+      <h2>Agenda</h2>
       <hr />
 
-        <?php
-          if(isset($_GET['aksi']) == 'delete'){
-            // escaping, additionally removing everything that could be (html/javascript-) code                                                
-            $nik = mysqli_real_escape_string($con,(strip_tags($_GET["nik"],ENT_QUOTES)));
-            $cek = mysqli_query($con, "SELECT * FROM persona WHERE codpersona='$nik'");
-            
-            if(mysqli_num_rows($cek) == 0){
-              echo '<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> No se encontraron datos.</div>';
-            }else{
-              $delete = mysqli_query($con, "DELETE FROM persona WHERE codpersona='$nik'");
-                                                        $delete = mysqli_query($con, "DELETE FROM usuario WHERE codpersona='$nik'");
-              if($delete){
-                echo '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Datos eliminado correctamente.</div>';
-              }else{
-                echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> Error, no se pudo eliminar los datos.</div>';
-              }
-            }
-          }
-        ?>
-                        </br>
-                        </br>                        
-                        <br />
-                        <div class="col-lg-12">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nombre</th>
-                                        <th>Identidad</th>
-                                        <th>Telefono</th>
-                                        <th>Direccion</th>
-                                                                               
-                                        <th>Estado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                    <?php
-                                    $medico= $_SESSION['codmedico'];
-                                    $sql = mysqli_query($con, "SELECT * FROM persona p,cita_medica c WHERE p.codpersona =c.codpersona AND c.CodMedico = $medico and c.codestadocita = 2 ");
+  <?php
+# definimos los valores iniciales para nuestro calendario
+$month=date("n");
+$year=date("Y");
+$diaActual=date("j");
+ 
+# Obtenemos el dia de la semana del primer dia
+# Devuelve 0 para domingo, 6 para sabado
+$diaSemana=date("w",mktime(0,0,0,$month,1,$year))+7;
+# Obtenemos el ultimo dia del mes
+$ultimoDiaMes=date("d",(mktime(0,0,0,$month+1,1,$year)-1));
+ 
+$meses=array(1=>"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+"Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+?>
+ 
+<!DOCTYPE html>
+<html lang="es">
+<head><center>
+  <!--http://www.lawebdelprogramador.com-->
+  <title>Calendario</title>
+  <meta charset="utf-8">
+  <style>
+    #calendar {
+      font-family:calibri;
+      font-size:20px;
+    }
+    #calendar caption {
+      text-align:center;
+      padding:20px 20px;
+      background-color:#003366;
+      color:#fff;
+      font-weight:bold;
+    }
+    #calendar th {
+      background-color:#006699;
+      color:#fff;
+      width:30px;
+    }
+    #calendar td {
+      text-align:center;
+      padding:20px 20px;
+      background-color:silver;
+    }
+    #calendar .hoy {
+      background-color:red;
+    }
+  </style>
+</head>
+ 
+<body>
 
-                                    if (mysqli_num_rows($sql) == 0) {
-                                        echo '<tr><td colspan="8">No hay datos.</td></tr>';
-                                    } else {
-                                        $no = 1;
-                                        while ($row = mysqli_fetch_assoc($sql)) {
-                                            echo '
-                    <tr>
-                      <td>' . $no . '</td>
-                      <td><a href="profile.php?nik=' . $row['CodPersona'] . '"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> ' . $row['Nombres'] . ' ' . $row['Apellidos'] . '</a></td>
-                      <td>' . $row['Nume_Identificacion'] . '</td>
-                      
-                      
-                      <td>' . $row['Celular'] . '</td>
-                      <td>' . $row['Direccion'] . '</td>
-                                   
-                       <td><span class="label bg-red">Atendida</span> </td>
-                      <td>
-                            <a href="reporte_cita.php"' . $row['CodPersona'] . '"class="btn btn-primary btn-block">Reporte</a>                    
-                            </td>
-                    </tr>
-                    ';
-                                            $no++;
-                                        }
-                                    }
-                                    ?>
-            </table>
-          </div>
-        </div>
-    </div>
-  </div>
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-</div>
+<table id="calendar">
+  <caption><?php echo $meses[$month]." ".$year?></caption>
+  <tr>
+    <th>Lun</th><th>Mar</th><th>Mie</th><th>Jue</th>
+    <th>Vie</th><th>Sab</th><th>Dom</th>
+  </tr>
+  <tr bgcolor="silver">
+    <?php
+    $last_cell=$diaSemana+$ultimoDiaMes;
+    // hacemos un bucle hasta 42, que es el máximo de valores que puede
+    // haber... 6 columnas de 7 dias
+    for($i=1;$i<=42;$i++)
+    {
+      if($i==$diaSemana)
+      {
+        // determinamos en que dia empieza
+        $day=1;
+      }
+      if($i<$diaSemana || $i>=$last_cell)
+      {
+        // celca vacia
+        echo "<td>&nbsp;</td>";
+      }else{
+        // mostramos el dia
+        if($day==$diaActual)
+          echo "<td class='hoy'>$day</td>";
+        else
+          echo "<td>$day</td>";
+        $day++;
+      }
+      // cuando llega al final de la semana, iniciamos una columna nueva
+      if($i%7==0)
+      {
+        echo "</tr><tr>\n";
+      }
+    }
+  ?>
+  </tr>
+</table>
+</body>
+</center></html>
+
 
 <!-- jQuery -->
 <script src="adminlte/plugins/jquery/jquery.min.js"></script>

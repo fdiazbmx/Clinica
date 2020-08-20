@@ -31,12 +31,7 @@
 </head>
 <body 
     <?php
-      include ('controladores/conexion.php');
-      include ('connect_db.php');   
-      session_start();
-      if($_SESSION["rol"] != 1){
-          header("location:../clinica/panel_principal.php");
-      }
+      include ('controladores/sesion_admin.php');            
     ?> 
 <div class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -68,7 +63,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
         <?php
-            include 'foto_nombre.php';
+            include 'foto_nombre_admin.php';
         ?>
       </div>
       <!-- Sidebar Menu -->

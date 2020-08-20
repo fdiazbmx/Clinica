@@ -147,10 +147,8 @@ if (!isset($_SESSION["usuario"])) {
                          echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-home"></i></span> Dirección: '.$nombre['Direccion'].'</li>';
                          echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Telefono: '.$nombre['Telefono'].'</li>';
                          echo '<li class="small"><span class="fa-li"><i class="fas fa-lg fa-mobile"></i></span> Celular: '.$nombre['Celular'].'</li>';
-                         echo "</div>
-                    <div class='col-6 text-center'>
-                      <img src='img/$nombre[FotoPerfil]' alt='' class='img-circle img-fluid'>
-                    </div>"; 
+                         echo "</div>"; 
+                         include 'foto_nombreinfo.php';
                      }
                      ?>
                   </div>

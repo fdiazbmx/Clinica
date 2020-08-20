@@ -1,3 +1,6 @@
+<?php
+include("connect_db.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,7 +53,7 @@
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-        <li><a href="../clinica/controladores/cerrar.php"><i class="fas fa-sign-out" aria-hidden="true"></i>Cerrar Sesión</a></li>
+        <li><a href="../clinica/controladores/cerrar.php"><i class="fa fa-sign-out" aria-hidden="true"></i>  Cerrar Sesión</a></li>
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -58,7 +61,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo --> 
-    <a href="panel_clientes.php" class="brand-link">
+    <a href="panel_doctor.php" class="brand-link">
       <span class="brand-text font-weight-light"><i class="fa fa-ambulance" aria-hidden="true"></i>  Amigos en Apuros</span>
     </a>
 
@@ -67,7 +70,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-2 pb-2 mb-3 d-flex">
         <?php
-            include 'foto_nombre.php';
+            include 'foto_nombre_doc.php';
         ?>
       </div>
 
@@ -76,31 +79,27 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-header">PACIENTE</li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-edit"></i>
-              <p>
-                Cita Medica
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
+          <li class="nav-header">DOCTOR</li>
               <li class="nav-item">
-                <a href="NuevaCita.php" class="nav-link">
+                  <a href="citaspendientes.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Crear Cita</p>
+                  <p>Citas Pendientes</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
+                <a href="citasatendidas.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Citas</p>
+                  <p>Citas Atentidas</p>
                 </a>
               </li>
-              </ul>
-          </li>
-          
+              <li class="nav-item">
+                <a href="calendario.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Calendario</p>
+                </a>
+              </li>
+              </div>
+              
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -111,9 +110,7 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-          <section class="content">
-      <!-- Default box -->
-      <div class="container">
+          <div class="container">
 		<div class="content">
 			<h2> Actualización</h2>
                         <?php
@@ -134,7 +131,7 @@
       
      
      if($resultado){   
-         echo '<script type="text/javascript">alert("Datos Actualizados Correctamente");window.location.href="panel_clientes.php";</script>';
+         echo '<script type="text/javascript">alert("Datos Actualizados Correctamente");window.location.href="informacion_doc.php";</script>';
      }else{
          echo 'error';
      }    
@@ -198,7 +195,7 @@
                      $resultado=$conn->prepare($sql);
                      $resultado->execute(array($user));
                      while ($nombre=$resultado->fetch(pdo::FETCH_ASSOC)){  
-                      echo   "<option value=''>$nombre[EstadoCivil]</option>";
+                      echo   "<option disabled selected value=''>Estado Civil</option>";
                       }     
                 ?>
                             <option value="'Soltero'">Soltero</option>
@@ -236,7 +233,7 @@
                      $resultado1=$conn->prepare($sql);
                      $resultado1->execute(array($user));
                      while ($nombre=$resultado1->fetch(pdo::FETCH_ASSOC)){  
-                      echo   "<input type='text' name='num_telefono' value='$nombre[Telefono]' class='form-control'class='input-group' required pattern='[0-9]{8,8}'  title='Un número de teléfono válido debe de constar con 8 digitos'>";
+                      echo   "<input type='text' name='num_telefono' class='form-control'class='input-group date form-control' value='$nombre[Telefono]'required pattern='[0-9]{8,8}'  title='Un número de teléfono válido debe de constar con 8 digitos'>";
                       }     
                 ?>
           <div class="input-group-append">
@@ -252,12 +249,12 @@
                      $resultado1=$conn->prepare($sql);
                      $resultado1->execute(array($user));
                      while ($nombre=$resultado1->fetch(pdo::FETCH_ASSOC)){  
-                      echo   "<input type='text' name='num_Celular' class='form-control'class='input-group date form-control' value='$nombre[Celular]' required pattern='[0-9]{8,8}'  title='Un número de teléfono válido debe de constar con 8 digitos'";
+                      echo   "<input type='text' name='num_Celular' class='form-control'class='input-group date form-control' value='$nombre[Celular]'required pattern='[0-9]{8,8}'  title='Un número de teléfono válido debe de constar con 8 digitos'>";
                       }     
                 ?>
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-phone"></span>
+              <span class="fas fa-mobile"></span>
             </div>
           </div>
         </div>
@@ -277,7 +274,6 @@
 </center>
               </div>
             </div>
-    </section>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -293,10 +289,6 @@
 <!-- ChartJS -->
 <script src="adminlte/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
-<script src="adminlte/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="adminlte/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="adminlte/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="adminlte/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->

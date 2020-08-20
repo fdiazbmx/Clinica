@@ -8,7 +8,7 @@ session_start();
 	require("connect_db.php");
 
 	$username=$_POST['mail'];
-	$pass=$_POST['pass'];
+	$pass=sha1($_POST['pass']);
 
 
 	//la variable  $mysqli viene de connect_db que lo traigo con el require("connect_db.php");
